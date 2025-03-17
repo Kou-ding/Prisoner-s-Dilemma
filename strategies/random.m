@@ -1,1 +1,21 @@
-player.move = randi([0, 1]);
+classdef cooperate < player
+    % Class's Properties
+    properties
+        strategy = 3;
+    end
+    methods
+        % Constructor
+        function obj = cooperate()
+            obj@cooperate();
+            cooperate.strategy = 0;
+        end
+
+        function obj = cooperate()
+            obj@player(); % Call the constructor of the parent class
+        end
+        
+        function move(obj)
+            return randi([Behaviour.Cooperate, Behaviour.Defect]);
+        end
+    end
+end

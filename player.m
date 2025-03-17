@@ -1,15 +1,20 @@
+classdef Behaviour
+    enumeration
+        Cooperate (0)
+        Defect (1)
+    end
+end
+
 classdef player 
     % Class's Properties
     properties
-        strategy;
         score = 0;
     end
 
     % Class's Methods
     methods
         % Constructor
-        function obj = Player(name)
-            obj.name = name;
+        function obj = Player()
             obj.score = 0;
         end
         % Method to add score

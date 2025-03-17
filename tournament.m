@@ -17,5 +17,7 @@ classdef tournament
         function obj = addRound(obj)
             obj.rounds = obj.rounds + 1;
         end
+        % Method to play a round
+        
     end
 end
