@@ -1,10 +1,3 @@
-classdef Behaviour
-    enumeration
-        Cooperate (0)
-        Defect (1)
-    end
-end
-
 classdef player 
     % Class's Properties
     properties
@@ -14,7 +7,7 @@ classdef player
     % Class's Methods
     methods
         % Constructor
-        function obj = Player()
+        function obj = player()
             obj.score = 0;
         end
         % Method to add score

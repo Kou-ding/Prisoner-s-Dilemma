@@ -6,7 +6,7 @@ function PrisonersDilemma()
     payoffMatrix{2, 2} = [2, 3]; % Player 1 chooses Y, Player 2 chooses B
 
     % Prompt user to select players
-    player1 = input('
+    players = input('Select the strategies you want to play against each other: ', 's');
     
 end
 

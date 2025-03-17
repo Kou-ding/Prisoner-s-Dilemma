@@ -9,7 +9,7 @@ classdef defect < player
         end
         
         function move(obj)
-            return Behaviour.Defect;
+            move =  behaviour.defect;
         end
     end
 end

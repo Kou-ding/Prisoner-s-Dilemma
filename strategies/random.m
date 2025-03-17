@@ -1,21 +1,18 @@
-classdef cooperate < player
+classdef random < player
     % Class's Properties
     properties
         strategy = 3;
     end
     methods
         % Constructor
-        function obj = cooperate()
-            obj@cooperate();
-            cooperate.strategy = 0;
+        function obj = random()
+            obj@player();
+            random.strategy = 0;
         end
 
-        function obj = cooperate()
-            obj@player(); % Call the constructor of the parent class
-        end
-        
+        % Make a random move
         function move(obj)
-            return randi([Behaviour.Cooperate, Behaviour.Defect]);
+            move = randi([behaviour.cooperate, behaviour.defect]);
         end
     end
 end

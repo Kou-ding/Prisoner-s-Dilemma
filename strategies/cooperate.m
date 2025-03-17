@@ -6,16 +6,12 @@ classdef cooperate < player
     methods
         % Constructor
         function obj = cooperate()
-            obj@cooperate();
+            obj@player();
             cooperate.strategy = 0;
-        end
-
-        function obj = cooperate()
-            obj@player(); % Call the constructor of the parent class
         end
         
         function move(obj)
-            return Behaviour.Cooperate;
+            move = behaviour.cooperate;
         end
     end
 end

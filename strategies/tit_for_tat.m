@@ -6,19 +6,16 @@ classdef tit_for_tat < player
     methods
         % Constructor
         function obj = tit_for_tat()
-            obj@cooperate();
-            cooperate.strategy = 0;
-        end
-
-        function obj = tit_for_tat()
-            obj@player(); % Call the constructor of the parent class
+            obj@player();
+            tit_for_tat.strategy = 2;
         end
         
         function move(obj)
             if(round==1)
-                return Behaviour.Cooperate;
+                move = behaviour.cooperate;
             else 
-                return % player.opponent_history(round-1);
+                move = player.opponent_history(round-1);
+            end
         end
     end
 end
