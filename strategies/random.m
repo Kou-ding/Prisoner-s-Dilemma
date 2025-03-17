@@ -1,0 +1,1 @@
+player.move = randi([0, 1]);
