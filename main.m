@@ -1,13 +1,17 @@
 function PrisonersDilemma()
-    % Fill in the payoffs
-    payoffMatrix{1, 1} = [3, 2]; % Player 1 chooses X, Player 2 chooses A
-    payoffMatrix{1, 2} = [0, 1]; % Player 1 chooses X, Player 2 chooses B
-    payoffMatrix{2, 1} = [1, 4]; % Player 1 chooses Y, Player 2 chooses A
-    payoffMatrix{2, 2} = [2, 3]; % Player 1 chooses Y, Player 2 chooses B
-
+    % Initialize tournament
+    tournament = tournament();
+    % Prompt user to select number of rounds
+    tournament.rounds = input('Enter the number of rounds you want to play: ');
     % Prompt user to select players
-    players = input('Select the strategies you want to play against each other: ', 's');
-    
+    tournament.players = input(['Select the strategies you want to play against each other:\n'...
+                    '1. Random\n'...
+                    '2. Cooperate\n'...
+                    '3. Defect\n'...
+                    '4. Tit-for-tat\n'...
+                    'Separate the stategies with a comma.'], 's');
+    % Start the tournament
+    playTournament(tournament);
 end
 
 PrisonersDilemma();
