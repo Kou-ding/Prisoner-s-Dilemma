@@ -2,10 +2,7 @@
 Notes and assignments of the university course:  "Game Theory".
 
 ### To-do List
-- [ ] Create the basic tournament class
-- [ ] Create the player class
-- [ ] Implement the 4 basic strategies
-- [ ] Create the main loop
+- [ ] Make the history matrix of the players dynamic so that we don't allocate more memory than we actually need.
 
 
 ### Time Schedule
@@ -17,3 +14,5 @@ Notes and assignments of the university course:  "Game Theory".
 |09/05/2025|Genetic Axelrod tournament|30%|
 |23/05/2025|Genetic WinPrisoner tournament|20%|
 
+## Documentation
+Each player has their own history matrix which has dimensions Rounds x Strategies. This allows us to store how a player played throughout all of their encounters with other players.

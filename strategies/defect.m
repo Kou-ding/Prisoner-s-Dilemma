@@ -1,15 +1,17 @@
 classdef defect < player
     % Class's Properties
     properties
-        strategy = 1;
+        strategy;
+        move;
     end
     methods
-        function obj = defect(name)
-            obj@player(name); % Call the constructor of the parent class
+        function obj = defect()
+            obj@player();
+            obj.strategy = 3;
         end
         
-        function move(obj)
-            move =  behaviour.defect;
+        function obj = setMove(obj)
+            obj.move = 0;
         end
     end
 end

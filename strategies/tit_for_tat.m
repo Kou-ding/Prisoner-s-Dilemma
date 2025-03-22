@@ -1,20 +1,21 @@
 classdef tit_for_tat < player
     % Class's Properties
     properties
-        strategy = 2;
+        strategy;
+        move;
     end
     methods
         % Constructor
         function obj = tit_for_tat()
             obj@player();
-            tit_for_tat.strategy = 2;
+            obj.strategy = 4;
         end
         
-        function move(obj)
+        function obj = setMove(strategy,round,player2)
             if(round==1)
-                move = behaviour.cooperate;
+                obj.move = 1;
             else 
-                move = player.opponent_history(round-1);
+                obj.move = player2.history(tournament.currentRound,strategy);
             end
         end
     end

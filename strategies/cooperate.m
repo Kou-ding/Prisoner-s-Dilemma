@@ -1,17 +1,19 @@
 classdef cooperate < player
     % Class's Properties
     properties
-        strategy = 0;
+        strategy;
+        move;
     end
     methods
         % Constructor
         function obj = cooperate()
             obj@player();
-            cooperate.strategy = 0;
+            obj.strategy = 2;
+            obj.move = 1;
         end
         
-        function move(obj)
-            move = behaviour.cooperate;
+        function obj = setMove(obj)
+            obj.move = 1;
         end
     end
 end

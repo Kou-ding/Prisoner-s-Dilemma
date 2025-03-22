@@ -1,18 +1,19 @@
 classdef random < player
     % Class's Properties
     properties
-        strategy = 3;
+        strategy;
+        move;
     end
     methods
         % Constructor
         function obj = random()
             obj@player();
-            random.strategy = 0;
+            obj.strategy = 1;
         end
 
         % Make a random move
-        function move(obj)
-            move = randi([behaviour.cooperate, behaviour.defect]);
+        function obj = setMove(obj)
+            obj.move = randi([1, 0]);
         end
     end
 end
