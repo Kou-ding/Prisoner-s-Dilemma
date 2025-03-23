@@ -1,14 +1,11 @@
 classdef random < player
-    % Class's Properties
-    properties
-        strategy;
-        move;
-    end
+    % Random's methods
     methods
         % Constructor
         function obj = random()
             obj@player();
             obj.strategy = 1;
+            obj.move = 0;
         end
 
         % Make a random move

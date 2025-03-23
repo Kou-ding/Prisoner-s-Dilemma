@@ -1,19 +1,18 @@
 classdef grim < player
     % Class's Properties
     properties
-        strategy;
-        move;
-        opponentHasDefected;
+        opponentHasDefected; % Flag that indicates if the opponent has defected
     end
+    % Grim's methods
     methods
         function obj = grim()
             obj@player(); % Call the constructor of the parent class
             obj.strategy = 5;
-            obj.opponentHasDefected = 0;
             obj.move = 1;
+            obj.opponentHasDefected = 0;
         end
         
-        % Set the move
+        % Cooperate until the opponent defects. Then, always defect
         function obj = setMove(obj,player2,currentRound)
             if(currentRound==1)
                 obj.move = 1;
