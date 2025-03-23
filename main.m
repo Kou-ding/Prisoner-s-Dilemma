@@ -124,7 +124,7 @@ function PrisonersDilemma()
                 error('Invalid strategy number: %d', strategyNumber);
             end
         end
-    
+        
         % Set the index and history matrix for each player
         for i = 1:length(players)
             players{i}.index = i;
@@ -137,7 +137,7 @@ function PrisonersDilemma()
 
     % Initialize the axelrod tournament
     tournament = axelrod();
-    tournament.initAxel(players, rounds, matrix);
+    tournament.initAxel(players, matrix, rounds);
     tournament.begin();
 
 end
