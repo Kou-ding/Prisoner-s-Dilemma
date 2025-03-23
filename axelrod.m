@@ -74,47 +74,37 @@ classdef axelrod
         % Encounters
         % Method to encounter two players
         function obj = encounter(obj, player1, player2, currentRound)
-            % Set the moves
-            player1.setMove(player1, player2.getHistory(currentRound-1,player1.getIndex())); % Previous round row 
-            player2.setMove(player2, player1.getHistory(currentRound-1,player2.getIndex())); % Opponent's index column
+            % Set the moves utilizing the opponent's history
+            player1.setMove(player2.getHistory(currentRound-1,player1.getIndex())); % Previous round row 
+            player2.setMove(player1.getHistory(currentRound-1,player2.getIndex())); % Opponent's index column
 
             % Update the scores
-            player1.setScore(player1,obj.getPayoffMatrixElement(obj,player1.getMove(),player2.getMove()));
-            player2.setScore(player2,obj.getPayoffMatrixElement(obj,player2.getMove(),player1.getMove()));
-
+            player1.setScore(player1, obj.payoffMatrix{player1.move+1, player2.move+1});
+            player2.setScore(player2, obj.payoffMatrix{player2.move+1, player1.move+1});
             % Update the history
-            player1.setHistory(currentRound,player1.strategy,player1.getMove());
-            player2.setHistory(currentRound,player2.strategy,player2.getMove());
+            player1.setHistory(player1, currentRound, player1.getIndex(), player1.getMove());
+            player2.setHistory(player2, currentRound, player2.getIndex(), player2.getMove());
         end
 
         % Round
         % Method to play a round
         function obj = playRound(obj)
-            for i = 1:length(obj.players)
-                for j = i:length(obj.players)
-                    % % Simulate the encounter as many times as the population of the player
-                    % if(i==j)
-                    %     % (N-1)N/2 encounters where N is the population
-                    %     for k = 1:((obj.players(i).population-1)*obj.players(j).population/2)
-                    %         encounter(obj.players(i), obj.players(j));
-                    %     end
-                    % else
-                    %     % N1*N2 encounters where N1 and N2 are the populations of the players
-                    %     for k = 1:(obj.players(i).population*obj.players(j).population)
-                    %         encounter(obj.players(i), obj.players(j));
-                    %     end
-                    % end
+            setCurrentRound(1);
+            for i = 1:length(obj.players)-1
+                for j = i+1:length(obj.players)
+                    % Encounter the players
                     encounter(obj.players(i), obj.players(j), getCurrentRound(obj));
                 end
             end
-            setCurrentRound(obj, getCurrentRound(obj));
+            % Update the current round
+            setCurrentRound(obj, getCurrentRound(obj)+1);
         end
 
         % Method to play the tournament
         function obj = begin(obj)
             for i = 1:obj.rounds
                 % Set the current round
-                obj.setCurrentRound(obj, i);
+                obj.setCurrentRound(i);
 
                 % Play the round
                 obj.playRound();
@@ -122,8 +112,7 @@ classdef axelrod
             disp('Tournament finished');
             disp('Scores:');
             for i = 1:length(obj.players)
-                disp('Player ' + i + 'score:\n');
-                disp(obj.players(i).getScore());
+                fprintf('Player %d score: %d\n', i, obj.players(i).getScore());
             end
         end
     end
