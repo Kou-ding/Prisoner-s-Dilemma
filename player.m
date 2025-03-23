@@ -17,8 +17,8 @@ classdef player
             obj.move = 0;
         end
         % Method to set the score
-        function obj = setScore(obj, score)
-            obj.score = obj.score + score;
+        function obj = setScore(obj, roundScore)
+            obj.score = obj.score + roundScore;
         end
         % Method to get the score
         function score = getScore(obj)
