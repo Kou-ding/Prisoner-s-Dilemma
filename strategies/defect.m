@@ -7,7 +7,7 @@ classdef defect < player
         end
         
         % Always defect
-        function obj = setMove(obj, opponentLastMove)
+        function obj = setMove(obj, ~) % the second argument is not used
             obj.move = 0;
         end
     end

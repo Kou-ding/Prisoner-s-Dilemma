@@ -12,7 +12,7 @@ classdef grim < player
         end
         
         % Cooperate until the opponent defects. Then, always defect
-        function obj = setMove(obj, opponentLastMove)
+        function obj = setMove(obj, opponentLastMove) % the second argument is not used
             if(currentRound==1)
                 obj.move = 1;
             else

@@ -8,7 +8,7 @@ classdef cooperate < player
         end
         
         % Always cooperate
-        function obj = setMove(obj, opponentLastMove)
+        function obj = setMove(obj, ~) % the second argument is not used
             obj.move = 1;
         end
     end

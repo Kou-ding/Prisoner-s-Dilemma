@@ -8,7 +8,7 @@ classdef random < player
         end
 
         % Make a random move
-        function obj = setMove(obj, opponentLastMove)
+        function obj = setMove(obj, ~) % the second argument is not used
             obj.move = randi([1, 0]);
         end
     end
