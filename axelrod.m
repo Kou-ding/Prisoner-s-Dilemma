@@ -18,20 +18,15 @@ classdef axelrod
         end
         
         % Initializer
-        function obj = initAxel(obj, playersArray, populationsArray, matrix, rounds)
+        function obj = initAxel(obj, playersArray, matrix, rounds)
             % Initialize the players
             obj.setPlayers(playersArray);
-
-            % Initialize the populations
-            for i = 1:length(obj.players)
-                obj.players(i).setPopulation(populationsArray(i));
-            end
 
             % Initialize the rounds
             obj.setRounds(rounds);
 
             % Initialize the payoff matrix
-            obj.payoffMatrix = matrix;
+            obj.setPayoffMatrix(matrix);
         end
 
 
@@ -66,21 +61,26 @@ classdef axelrod
         end
         
         % Payoff Matrix
-        % Method to get the payoff matrix
-        function payoffMatrix = getPayoffMatrix(obj)
-            payoffMatrix = obj.payoffMatrix;
+        % Method to set the payoff matrix
+        function obj = setPayoffMatrix(obj, payoffMatrix)
+            obj.payoffMatrix = payoffMatrix;
         end
+        % Method to get the payoff matrix
+        function payoffMatrix = getPayoffMatrixElement(obj, row, column)
+            payoffMatrix = obj.payoffMatrix(row,column);
+        end
+
         
         % Encounters
         % Method to encounter two players
         function obj = encounter(obj, player1, player2, currentRound)
             % Set the moves
-            player1.setMove(player2,history(currentRound-1,player1.strategy));
-            player2.setMove(player1,history(currentRound-1,player2.strategy));
+            player1.setMove(player1, player2.getHistory(currentRound-1,player1.getIndex())); % Previous round row 
+            player2.setMove(player2, player1.getHistory(currentRound-1,player2.getIndex())); % Opponent's index column
 
             % Update the scores
-            player1.setScore(player1,obj.payoffMatrix(player1.getMove(),player2.getMove()));
-            player2.setScore(player2,obj.payoffMatrix(player2.getMove(),player1.getMove()));
+            player1.setScore(player1,obj.getPayoffMatrixElement(obj,player1.getMove(),player2.getMove()));
+            player2.setScore(player2,obj.getPayoffMatrixElement(obj,player2.getMove(),player1.getMove()));
 
             % Update the history
             player1.setHistory(currentRound,player1.strategy,player1.getMove());
@@ -91,19 +91,20 @@ classdef axelrod
         % Method to play a round
         function obj = playRound(obj)
             for i = 1:length(obj.players)
-                for j = 1:length(population(i))
-                    % Simulate the encounter as many times as the population of the player
-                    if(i==j)
-                        % (N-1)N/2 encounters where N is the population
-                        for k = 1:((obj.players(i).population-1)*obj.players(i).population/2)
-                            encounter(obj.players(i), obj.players(j));
-                        end
-                    else
-                        % N1*N2 encounters where N1 and N2 are the populations of the players
-                        for k = 1:(obj.players(i).population*obj.players(j).population)
-                            encounter(obj.players(i), obj.players(j));
-                        end
-                    end
+                for j = i:length(obj.players)
+                    % % Simulate the encounter as many times as the population of the player
+                    % if(i==j)
+                    %     % (N-1)N/2 encounters where N is the population
+                    %     for k = 1:((obj.players(i).population-1)*obj.players(j).population/2)
+                    %         encounter(obj.players(i), obj.players(j));
+                    %     end
+                    % else
+                    %     % N1*N2 encounters where N1 and N2 are the populations of the players
+                    %     for k = 1:(obj.players(i).population*obj.players(j).population)
+                    %         encounter(obj.players(i), obj.players(j));
+                    %     end
+                    % end
+                    encounter(obj.players(i), obj.players(j), getCurrentRound(obj));
                 end
             end
             setCurrentRound(obj, getCurrentRound(obj));
@@ -113,10 +114,16 @@ classdef axelrod
         function obj = begin(obj)
             for i = 1:obj.rounds
                 % Set the current round
-                setCurrentRound(obj, i);
+                obj.setCurrentRound(obj, i);
 
                 % Play the round
                 obj.playRound();
+            end
+            disp('Tournament finished');
+            disp('Scores:');
+            for i = 1:length(obj.players)
+                disp('Player ' + i + 'score:\n');
+                disp(obj.players(i).getScore());
             end
         end
     end

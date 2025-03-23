@@ -2,28 +2,28 @@ addpath('strategies');
 function PrisonersDilemma()
     % Prompt user to select strategies
     while true
-        playersInput = input(['Select the strategies you want to play against each other:\n'...
+        strategiesInput = input(['Select the strategies you want to play against each other:\n'...
                         '1. Random\n'...
                         '2. Cooperate\n'...
                         '3. Defect\n'...
                         '4. Tit-for-tat\n'...
                         '5. Grim\n'...
-                        'Separate the stategies with a comma.\n'...
+                        'Separate the stategies with a space.\n'...
                         'Strategies: '], 's');
-        playerArray = str2double(strsplit(playersInput, ' '));
+        strategiesArray = str2double(strsplit(strategiesInput, ' '));
         % Guarantee strategy uniqueness
-        if length(playerArray) ~= length(unique(playerArray))
+        if length(strategiesArray) ~= length(unique(strategiesArray))
             disp('There are repeating elements in the array. Please select unique strategies.');
         else
             break;
         end
-        disp(playerArray);
+        disp(strategiesArray);
     end
 
     % Prompt user to select populations
     while true
         populationsInput = input(['Which is their corresponding population?\n'...
-                            'Separate the populations with a comma.\n'...
+                            'Separate the populations with a space.\n'...
                             'Populations: '], 's');
         populationsArray = str2double(strsplit(populationsInput, ' '));
         if(length(populationsArray) == length(playerArray))
@@ -84,7 +84,7 @@ function PrisonersDilemma()
     end
 
     % Create players based on playerArray
-    function players = InitPlayers(playerArray)
+    function players = InitPlayers(strategiesArray, populationsArray)
         % Define function handles for each player type
         playerConstructors = containers.Map(...
             {1, 2, 3, 4, 5}, ... % Strategy numbers
@@ -92,23 +92,42 @@ function PrisonersDilemma()
         );
     
         % Initialize players array
-        players = player.empty(1, length(playerArray));
-    
-        % Create players based on playerArray
-        for i = 1:length(playerArray)
-            if playerConstructors.isKey(playerArray(i))
-                players(i) = playerConstructors(playerArray(i)); % Call constructor dynamically
+        players = player.empty(1, sum(populationsArray,"all"));
+
+        % Create players based on strategiesArray and populationsArray
+        playerIndex = 1; % Track the current position in the players array
+        for strategy = 1:length(strategiesArray)
+            % Get the current strategy number
+            strategyNumber = strategiesArray(strategy);
+            
+            % Get the population for the current strategy
+            population = populationsArray(strategy);
+            
+            % Check if the strategy is valid
+            if playerConstructors.isKey(strategyNumber)
+                % Create 'population' number of players for the current strategy
+                for i = 1:population
+                    % Dynamically call the constructor for the current strategy
+                    players(playerIndex) = playerConstructors(strategyNumber);
+                    playerIndex = playerIndex + 1; % Move to the next position in the players array
+                end
             else
-                error('Invalid strategy number: %d', playerArray(i));
+                error('Invalid strategy number: %d', strategyNumber);
             end
         end
+        % Set the index and history matrix for each player
+        for i = 1:length(players)
+            players(i).index = i;
+            players(i).initHistory(length(players), rounds);
+        end
     end
-    players = InitPlayers(playerArray);
+
+    players = InitPlayers(playerArray, populationsArray);
     disp(players);
 
     % Initialize the axelrod tournament
     tournament = axelrod();
-    tournament.initAxel(InitPlayers(playerArray), populationsArray, rounds, matrix);
+    tournament.initAxel(players, rounds, matrix);
     tournament.begin();
 
 

@@ -7,17 +7,16 @@ classdef grim < player
     methods
         function obj = grim()
             obj@player(); % Call the constructor of the parent class
-            obj.strategy = 5;
             obj.move = 1;
             obj.opponentHasDefected = 0;
         end
         
         % Cooperate until the opponent defects. Then, always defect
-        function obj = setMove(obj,player2,currentRound)
+        function obj = setMove(obj, opponentLastMove)
             if(currentRound==1)
                 obj.move = 1;
             else
-                if(player2.history(tournament.currentRound,player2) == 0)
+                if(opponentLastMove == 0)
                     obj.opponentHasDefected = 1;
                 end
                 

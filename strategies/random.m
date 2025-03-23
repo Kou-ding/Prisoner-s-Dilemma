@@ -4,12 +4,11 @@ classdef random < player
         % Constructor
         function obj = random()
             obj@player();
-            obj.strategy = 1;
             obj.move = 0;
         end
 
         % Make a random move
-        function obj = setMove(obj)
+        function obj = setMove(obj, opponentLastMove)
             obj.move = randi([1, 0]);
         end
     end

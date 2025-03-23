@@ -4,12 +4,11 @@ classdef cooperate < player
         % Constructor
         function obj = cooperate()
             obj@player();
-            obj.strategy = 2;
             obj.move = 1;
         end
         
         % Always cooperate
-        function obj = setMove(obj)
+        function obj = setMove(obj, opponentLastMove)
             obj.move = 1;
         end
     end

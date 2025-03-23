@@ -4,16 +4,15 @@ classdef tit_for_tat < player
         % Constructor
         function obj = tit_for_tat()
             obj@player();
-            obj.strategy = 4;
             obj.move = 1;
         end
         
         % At first cooperate. Afterwards copy your opponent's last move
-        function obj = setMove(strategy,round,player2)
+        function obj = setMove(obj, opponentLastMove)
             if(round==1)
                 obj.move = 1;
             else 
-                obj.move = player2.history(tournament.currentRound,strategy);
+                obj.move = opponentLastMove;
             end
         end
     end

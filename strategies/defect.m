@@ -3,12 +3,11 @@ classdef defect < player
     methods
         function obj = defect()
             obj@player();
-            obj.strategy = 3;
             obj.move = 0;
         end
         
         % Always defect
-        function obj = setMove(obj)
+        function obj = setMove(obj, opponentLastMove)
             obj.move = 0;
         end
     end

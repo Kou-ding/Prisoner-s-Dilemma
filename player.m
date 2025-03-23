@@ -1,10 +1,9 @@
 classdef player 
     % Class's Properties
     properties
+        index; % Player's index
         score; % Player's score
         history; % Empty array StrategiesxRounds
-        population; % Number of players
-        strategy; % Player's strategy
         move; % Player's move
     end
 
@@ -13,9 +12,8 @@ classdef player
         % Constructor
         function obj = player()
             obj.score = 0;
-            obj.history = zeros(100,5); %tournament.Rounds
-            obj.population = 0;
-            obj.strategy = 0;
+            obj.history = []; %tournament.Rounds
+            obj.index = 0;
             obj.move = 0;
         end
         % Method to set the score
@@ -26,21 +24,25 @@ classdef player
         function score = getScore(obj)
             score = obj.score;
         end
+        % Method to initialize the history array
+        function obj = initHistory(obj, rounds, numberPlayers)
+            obj.history = zeros(rounds,numberPlayers);
+        end
         % Method to set the history
-        function obj = setHistory(obj, round, player, move)
-            obj.history(round,player.strategy) = move;
+        function obj = setHistory(obj, round, index, move)
+            obj.history(round,index) = move;
         end
         % Method to get the history
-        function history = getHistory(obj, strategy, round)
-            history = obj.history(strategy,round);
+        function history = getHistory(obj, round, opponentIndex)
+            history = obj.history(round, opponentIndex);
         end
-        % Method to set the population
-        function obj = setPopulation(obj, population)
-            obj.population = population;
+        % Method to set the index
+        function obj = setIndex(obj, index)
+            obj.index = index;
         end
-        % Method to get the population
-        function population = getPopulation(obj)
-            population = obj.population;
-        end
+        % Method to get the index
+        function index = getIndex(obj)
+            index = obj.index;
+        end        
     end
 end
