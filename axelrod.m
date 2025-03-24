@@ -11,7 +11,7 @@ classdef axelrod
     methods
         % Constructor
         function obj = axelrod()
-            obj.players = player.empty;
+            obj.players = {};
             obj.rounds = 0;
             obj.currentRound = 0;
             obj.payoffMatrix = {0, 0, 0, 0}; 
@@ -20,15 +20,12 @@ classdef axelrod
         % Initializer
         function obj = initAxel(obj, playersArray, matrix, rounds)
             % Initialize the players
-            obj.setPlayers(playersArray);
-
-            % Initialize the rounds
-            obj.setRounds(rounds);
-
+            obj = obj.setPlayers(playersArray);
             % Initialize the payoff matrix
-            obj.setPayoffMatrix(matrix);
+            obj = obj.setPayoffMatrix(matrix);
+            % Initialize the rounds
+            obj = obj.setRounds(rounds);
         end
-
 
         % Players
         % Method to set all players
@@ -79,25 +76,26 @@ classdef axelrod
             player2.setMove(player1.getHistory(currentRound-1,player2.getIndex())); % Opponent's index column
 
             % Update the scores
-            player1.setScore(player1, obj.payoffMatrix{player1.move+1, player2.move+1});
-            player2.setScore(player2, obj.payoffMatrix{player2.move+1, player1.move+1});
+            player1.setScore(obj.getPayoffMatrixElement(player1.move+1, player2.move+1));
+            player2.setScore(obj.getPayoffMatrixElement(player2.move+1, player1.move+1));
+
             % Update the history
-            player1.setHistory(player1, currentRound, player1.getIndex(), player1.getMove());
-            player2.setHistory(player2, currentRound, player2.getIndex(), player2.getMove());
+            player1.setHistory(currentRound, player1.getIndex(), player1.getMove());
+            player2.setHistory(currentRound, player2.getIndex(), player2.getMove());
         end
 
         % Round
         % Method to play a round
         function obj = playRound(obj)
-            setCurrentRound(1);
+            obj = obj.setCurrentRound(1);
             for i = 1:length(obj.players)-1
                 for j = i+1:length(obj.players)
                     % Encounter the players
-                    encounter(obj.players(i), obj.players(j), getCurrentRound(obj));
+                    obj.encounter(obj.players{i}, obj.players{j}, obj.getCurrentRound());
                 end
             end
             % Update the current round
-            setCurrentRound(obj, getCurrentRound(obj)+1);
+            obj = obj.setCurrentRound(obj.getCurrentRound()+1);
         end
 
         % Method to play the tournament
@@ -112,7 +110,7 @@ classdef axelrod
             disp('Tournament finished');
             disp('Scores:');
             for i = 1:length(obj.players)
-                fprintf('Player %d score: %d\n', i, obj.players(i).getScore());
+                fprintf('Player %d score: %d\n', i, obj.players{i}.getScore());
             end
         end
     end
