@@ -99,8 +99,8 @@ classdef axelrod
             % disp(player1)
             % disp('Player 1:\n');
             % disp(player2);
-            fprintf('Player %d score: %d\n', player1.getIndex(), player1.getScore());
-            fprintf('Player %d score: %d\n', player2.getIndex(), player2.getScore());
+            % fprintf('Player %d score: %d\n', player1.getIndex(), player1.getScore());
+            % fprintf('Player %d score: %d\n', player2.getIndex(), player2.getScore());
         end
 
         % Round
@@ -137,7 +137,8 @@ classdef axelrod
             disp('Scores:');
             for i = 1:length(obj.players)
                 fprintf('Player %d score: %d\n', i, obj.players{i}.getScore());
-            end
+            end  
         end
+        
     end
 end

@@ -2,9 +2,9 @@ addpath('strategies');
 function PrisonersDilemma()
     % Debuging values
     strategiesArray = [3, 2];
-    populationsArray = [1, 1];
+    populationsArray = [2, 2];
     matrix = [3, 1; 4, 2];
-    rounds = 5;
+    rounds = 1;
 
     function players = InitPlayers(strategiesArray, populationsArray, rounds)
         % Define function handles for each player type
@@ -72,7 +72,24 @@ function PrisonersDilemma()
     % disp('Rounds set:');
     % disp(tournament.getRounds());
 
-    tournament.begin();
+    % Run the tournament
+    tournament = tournament.begin();
+
+    % Calculate the total score for each player class
+    playerStrategies = containers.Map(...
+        {1, 2, 3, 4, 5}, ... % Strategy numbers
+        {'Random', 'Cooperate', 'Defect', 'Tit for Tat', 'Grim'}... % Strategy names
+    );
+
+    totalScore = zeros(1, length(strategiesArray));
+    counter = 1;
+    for m = 1:length(strategiesArray)
+        for j = 1:populationsArray(m)
+            totalScore(m) = totalScore(m) + tournament.players{counter}.getScore();
+            counter = counter + 1;
+        end
+        fprintf('%s : %d points\n', playerStrategies(strategiesArray(m)), totalScore(m));
+    end
 
 end
 
