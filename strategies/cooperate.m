@@ -4,12 +4,12 @@ classdef cooperate < player
         % Constructor
         function obj = cooperate()
             obj@player();
-            obj.move = 1;
+            obj.move = 0;
         end
         
         % Always cooperate
-        function obj = setMove(obj, ~) % the second argument is not used
-            obj.move = 1;
+        function obj = setMove(obj, ~, ~) % the second argument is not used
+            obj.move = 0;
         end
     end
 end

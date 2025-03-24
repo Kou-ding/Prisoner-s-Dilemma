@@ -1,10 +1,11 @@
 addpath('strategies');
 function PrisonersDilemma()
     % Debuging values
-    strategiesArray = [3, 2];
-    populationsArray = [2, 2];
-    matrix = [3, 1; 4, 2];
-    rounds = 1;
+    strategiesArray = [3, 4];
+    populationsArray = [1, 1];
+    matrix = [3, 1; 
+              4, 2];
+    rounds = 2;
 
     function players = InitPlayers(strategiesArray, populationsArray, rounds)
         % Define function handles for each player type

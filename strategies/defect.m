@@ -7,8 +7,8 @@ classdef defect < player
         end
         
         % Always defect
-        function obj = setMove(obj, ~) % the second argument is not used
-            obj.move = 0;
+        function obj = setMove(obj, ~, ~) % the second argument is not used
+            obj.move = 1;
         end
     end
 end

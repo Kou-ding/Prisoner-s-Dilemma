@@ -79,12 +79,12 @@ classdef axelrod
 
             if(currentRound==1 || currentRound<1)
                 % Set the player moves for the first round 
-                player1 = player1.setMove(0); % First round
-                player2 = player2.setMove(0); % First round
+                player1 = player1.setMove(0, currentRound); % First round
+                player2 = player2.setMove(0, currentRound); % First round
             else
                 % Set the next player moves utilizing the opponent's history
-                player1 = player1.setMove(player2.getHistoryElement(currentRound-1,player1.getIndex())); % Previous round row 
-                player2 = player2.setMove(player1.getHistoryElement(currentRound-1,player2.getIndex())); % Opponent's index column
+                player1 = player1.setMove(player2.getHistoryElement(currentRound-1,player1.getIndex()), currentRound); % Previous round row 
+                player2 = player2.setMove(player1.getHistoryElement(currentRound-1,player2.getIndex()), currentRound); % Opponent's index column
             end
             % Update the scores
             player1 = player1.setScore(obj.getPayoffMatrixElement(player1.move+1, player2.move+1));
