@@ -3,7 +3,7 @@ function PrisonersDilemma()
     % Debuging values
     strategiesArray = [1, 2];
     populationsArray = [2, 2];
-    matrix = {3, 1; 4, 2};
+    matrix = [3, 1; 4, 2];
     rounds = 10;
 
     function players = InitPlayers(strategiesArray, populationsArray, rounds)
@@ -45,21 +45,31 @@ function PrisonersDilemma()
         % Set the index and history matrix for each player
         for i = 1:length(players)
             players{i}.index = i;
-            players{i}.initHistory(length(players), rounds);
+            players{i} = players{i}.initHistory(rounds, length(players));
+            % % Debugging
+            % fprintf('Player %d history:\n', i);
+            % disp(players{i}.getHistory());
         end
     end
 
+    % Initialize the players
     players = InitPlayers(strategiesArray, populationsArray, rounds);
+
+    disp('Players initialized:');
     disp(players);
+
+    disp('Number of players:');
     disp(length(players));
 
     % Initialize the axelrod tournament
     tournament = axelrod();
 
     tournament = tournament.initAxel(players, matrix, rounds);
+    disp('Tournament initialized:');
     disp(tournament);
     
     tournament = tournament.setRounds(rounds);
+    disp('Rounds set:');
     disp(tournament.getRounds());
 
     tournament.begin();

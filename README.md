@@ -15,4 +15,4 @@ Notes and assignments of the university course:  "Game Theory".
 |23/05/2025|Genetic WinPrisoner tournament|20%|
 
 ## Documentation
-Each player has their own history matrix which has dimensions Rounds x Strategies. This allows us to store how a player played throughout all of their encounters with other players.
+Each player has their own history matrix which has dimensions Rounds x Players. This allows us to store how a player played throughout all of their encounters with other players.

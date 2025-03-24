@@ -71,17 +71,32 @@ classdef axelrod
         % Encounters
         % Method to encounter two players
         function obj = encounter(obj, player1, player2, currentRound)
-            % Set the moves utilizing the opponent's history
-            player1.setMove(player2.getHistory(currentRound-1,player1.getIndex())); % Previous round row 
-            player2.setMove(player1.getHistory(currentRound-1,player2.getIndex())); % Opponent's index column
-
+            disp('Player 1 history:');
+            disp(player1.getHistory());
+            disp('Player 1 move:');
+            disp(player1.getMove());
+            if(currentRound==1 || currentRound<1)
+                % Set the player moves for the first round 
+                player1 = player1.setMove(0); % First round
+                player2 = player2.setMove(0); % First round
+            else
+                % Set the next player moves utilizing the opponent's history
+                player1 = player1.setMove(player2.getHistoryElement(currentRound-1,player1.getIndex())); % Previous round row 
+                player2 = player2.setMove(player1.getHistoryElement(currentRound-1,player2.getIndex())); % Opponent's index column
+            end
             % Update the scores
-            player1.setScore(obj.getPayoffMatrixElement(player1.move+1, player2.move+1));
-            player2.setScore(obj.getPayoffMatrixElement(player2.move+1, player1.move+1));
+            player1 = player1.setScore(obj.getPayoffMatrixElement(player1.move+1, player2.move+1));
+            player2 = player2.setScore(obj.getPayoffMatrixElement(player2.move+1, player1.move+1));
 
             % Update the history
-            player1.setHistory(currentRound, player1.getIndex(), player1.getMove());
-            player2.setHistory(currentRound, player2.getIndex(), player2.getMove());
+            player1 = player1.setHistory(currentRound, player2.getIndex(), player1.getMove());
+            player2 = player2.setHistory(currentRound, player1.getIndex(), player2.getMove());
+            
+            % Debugging
+            disp('Player 1:\n');
+            disp(player1)
+            disp('Player 1:\n');
+            disp(player2);
         end
 
         % Round
@@ -91,7 +106,7 @@ classdef axelrod
             for i = 1:length(obj.players)-1
                 for j = i+1:length(obj.players)
                     % Encounter the players
-                    obj.encounter(obj.players{i}, obj.players{j}, obj.getCurrentRound());
+                    obj = obj.encounter(obj.players{i}, obj.players{j}, obj.getCurrentRound());
                 end
             end
             % Update the current round
@@ -102,10 +117,14 @@ classdef axelrod
         function obj = begin(obj)
             for i = 1:obj.rounds
                 % Set the current round
-                obj.setCurrentRound(i);
+                obj = obj.setCurrentRound(i);
 
                 % Play the round
-                obj.playRound();
+                obj = obj.playRound();
+
+                % Debugging
+                disp('Round finished');
+                disp(obj);
             end
             disp('Tournament finished');
             disp('Scores:');

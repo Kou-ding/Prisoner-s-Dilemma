@@ -12,7 +12,7 @@ classdef player
         % Constructor
         function obj = player()
             obj.score = 0;
-            obj.history = []; %tournament.Rounds
+            obj.history = [];
             obj.index = 0;
             obj.move = 0;
         end
@@ -29,11 +29,15 @@ classdef player
             obj.history = zeros(rounds,numberPlayers);
         end
         % Method to set the history
-        function obj = setHistory(obj, round, index, move)
-            obj.history(round,index) = move;
+        function obj = setHistory(obj, round, opponentIndex, move)
+            obj.history(round,opponentIndex) = move;
+        end
+        % Method to get the entire history
+        function history = getHistory(obj)
+            history = obj.history;
         end
         % Method to get the history
-        function history = getHistory(obj, round, opponentIndex)
+        function history = getHistoryElement(obj, round, opponentIndex)
             history = obj.history(round, opponentIndex);
         end
         % Method to set the index
@@ -43,6 +47,10 @@ classdef player
         % Method to get the index
         function index = getIndex(obj)
             index = obj.index;
+        end
+        % Method to get the move
+        function move = getMove(obj)
+            move = obj.move;
         end        
     end
 end
