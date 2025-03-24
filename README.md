@@ -2,7 +2,7 @@
 Notes and assignments of the university course:  "Game Theory".
 
 ### To-do List
-- [ ] Make the history matrix of the players dynamic so that we don't allocate more memory than we actually need.
+- [ ] Fill to do list
 
 
 ### Time Schedule
