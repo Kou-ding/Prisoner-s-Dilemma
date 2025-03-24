@@ -50,7 +50,7 @@ classdef axelrod
         % Current Round
         % Method to set the current round
         function obj = setCurrentRound(obj, currentRound)
-            obj.currentRound = currentRound + 1;
+            obj.currentRound = currentRound;
         end
         % Method to get the current round
         function currentRound = getCurrentRound(obj)
@@ -70,11 +70,13 @@ classdef axelrod
         
         % Encounters
         % Method to encounter two players
-        function obj = encounter(obj, player1, player2, currentRound)
-            disp('Player 1 history:');
-            disp(player1.getHistory());
-            disp('Player 1 move:');
-            disp(player1.getMove());
+        function [player1,player2] = encounter(obj, player1, player2, currentRound)
+            % % Debugging
+            % disp('Player 1 history:');
+            % disp(player1.getHistory());
+            % disp('Player 1 move:');
+            % disp(player1.getMove());
+
             if(currentRound==1 || currentRound<1)
                 % Set the player moves for the first round 
                 player1 = player1.setMove(0); % First round
@@ -92,25 +94,25 @@ classdef axelrod
             player1 = player1.setHistory(currentRound, player2.getIndex(), player1.getMove());
             player2 = player2.setHistory(currentRound, player1.getIndex(), player2.getMove());
             
-            % Debugging
-            disp('Player 1:\n');
-            disp(player1)
-            disp('Player 1:\n');
-            disp(player2);
+            % % Debugging
+            % disp('Player 1:\n');
+            % disp(player1)
+            % disp('Player 1:\n');
+            % disp(player2);
+            fprintf('Player %d score: %d\n', player1.getIndex(), player1.getScore());
+            fprintf('Player %d score: %d\n', player2.getIndex(), player2.getScore());
         end
 
         % Round
         % Method to play a round
         function obj = playRound(obj)
-            obj = obj.setCurrentRound(1);
+            % Simulate all the encounters
             for i = 1:length(obj.players)-1
                 for j = i+1:length(obj.players)
                     % Encounter the players
-                    obj = obj.encounter(obj.players{i}, obj.players{j}, obj.getCurrentRound());
+                    [obj.players{i}, obj.players{j}] = obj.encounter(obj.players{i}, obj.players{j}, obj.getCurrentRound());
                 end
             end
-            % Update the current round
-            obj = obj.setCurrentRound(obj.getCurrentRound()+1);
         end
 
         % Method to play the tournament
@@ -122,9 +124,14 @@ classdef axelrod
                 % Play the round
                 obj = obj.playRound();
 
-                % Debugging
-                disp('Round finished');
-                disp(obj);
+                % % Debugging
+                % disp('Round finished, tournament state');
+                % disp(obj);
+                %
+                % for j = 1:length(obj.players)
+                %     fprintf('Player %d history:',j);
+                %     disp(obj.players{j}.getHistory());
+                % end
             end
             disp('Tournament finished');
             disp('Scores:');
