@@ -4,7 +4,6 @@ classdef cooperate < player
         % Constructor
         function obj = cooperate()
             obj@player();
-            obj.move = 0;
         end
         
         % Always cooperate

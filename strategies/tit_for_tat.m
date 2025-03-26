@@ -4,7 +4,6 @@ classdef tit_for_tat < player
         % Constructor
         function obj = tit_for_tat()
             obj@player();
-            obj.move = 0;
         end
         
         % At first cooperate. Afterwards copy your opponent's last move

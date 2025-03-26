@@ -4,7 +4,6 @@ classdef random < player
         % Constructor
         function obj = random()
             obj@player();
-            obj.move = 0;
         end
 
         % Make a random move

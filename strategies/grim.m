@@ -7,7 +7,6 @@ classdef grim < player
     methods
         function obj = grim()
             obj@player(); % Call the constructor of the parent class
-            obj.move = 0;
             obj.opponentHasDefected = 0;
         end
         

@@ -3,7 +3,6 @@ classdef defect < player
     methods
         function obj = defect()
             obj@player();
-            obj.move = 0;
         end
         
         % Always defect
