@@ -1,8 +1,9 @@
 classdef defect < player
     % Defect's methods
     methods
+        % Constructor
         function obj = defect()
-            obj@player();
+            obj@player(); % Call the constructor of the parent class
         end
         
         % Always defect

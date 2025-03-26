@@ -3,7 +3,7 @@ classdef cooperate < player
     methods
         % Constructor
         function obj = cooperate()
-            obj@player();
+            obj@player(); % Call the constructor of the parent class
         end
         
         % Always cooperate

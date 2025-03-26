@@ -6,7 +6,7 @@ classdef tit_for_tat < player
             obj@player();
         end
         
-        % At first cooperate. Afterwards copy your opponent's last move
+        % At first cooperate. Afterwards copy your opponent's last move.
         function obj = setMove(obj, opponentLastMove, currentRound)
             if(currentRound==1)
                 obj.move = 0;

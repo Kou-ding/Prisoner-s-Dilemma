@@ -3,11 +3,11 @@ classdef random < player
     methods
         % Constructor
         function obj = random()
-            obj@player();
+            obj@player(); % Call the constructor of the parent class
         end
 
         % Make a random move
-        function obj = setMove(obj, ~, ~) % the second argument is not used
+        function obj = setMove(obj, ~, ~) % both arguments are not used
             obj.move = randi([0, 1]);
         end
     end

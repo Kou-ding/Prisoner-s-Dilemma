@@ -1,5 +1,5 @@
 classdef grim < player
-    % Class's Properties
+    % Grim's Properties
     properties
         opponentHasDefected; % Flag that indicates if the opponent has defected
     end
@@ -10,8 +10,8 @@ classdef grim < player
             obj.opponentHasDefected = 0;
         end
         
-        % Cooperate until the opponent defects. Then, always defect
-        function obj = setMove(obj, opponentLastMove, currentRound) % the second argument is not used
+        % Cooperate until the opponent defects. Then, always defect.
+        function obj = setMove(obj, opponentLastMove, currentRound)
             if(currentRound==1)
                 obj.move = 0;
             else
