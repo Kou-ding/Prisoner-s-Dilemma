@@ -1,4 +1,5 @@
-% Prompt user to select strategies
+function [strategiesArray, populationsArray, matrix, rounds] = prompts()
+    % Prompt user to select strategies
     while true
         strategiesInput = input(['Select the strategies you want to play against each other:\n'...
                         '1. Random\n'...
@@ -36,12 +37,12 @@
     % Prompt user to select payoff matrix
     while true
         payoffSelector = input(['Select the payoff matrix:\n'...
-                              '1. Prisoner’s Dilemma\n'...
-                              '2. Custom\n'...
-                              'Choice: '], 's');
+                            '1. Prisoner’s Dilemma\n'...
+                            '2. Custom\n'...
+                            'Choice: '], 's');
         % Standard Prisoner's Dilemma payoff matrix
         if strcmp(payoffSelector, '1')
-            matrixArray =  {3, 1; 4, 2};
+            matrix =  [3, 1; 4, 2];
             break;
         % Custom payoff matrix
         elseif strcmp(payoffSelector, '2')
@@ -58,7 +59,7 @@
             % Check if the matrix is nxn
             if mod(sqrt(length(payoffMatrixArray)), 1) == 0
                 n = sqrt(length(payoffMatrixArray));
-                matrixArray = reshape(payoffMatrixArray, [n, n]);
+                matrix = reshape(payoffMatrixArray, [n, n]);
                 break;
             else
                 disp('The matrix provided is not nxn. Please enter a valid matrix.');
@@ -67,16 +68,18 @@
             disp('Invalid choice. Please select 1 or 2.');
         end
     end
-    disp(matrixArray);
+    disp(matrix);
 
     % Prompt user to select number of rounds
     while true
-        rounds = input(['How many rounds would you like to simulate?\n'...
-                                'Rounds: '], 's');
+        roundsInput = input(['How many rounds would you like to simulate?\n'...
+                                'Rounds: '], 's');       
+        rounds = str2double(roundsInput);
         disp(rounds);
-        if str2double(rounds) > 0
+        if (rounds) > 0
             break;
         else
             disp('Invalid input. Please enter a positive integer.');
         end
     end
+end
