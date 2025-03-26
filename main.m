@@ -1,11 +1,7 @@
 addpath('strategies');
 function PrisonersDilemma()
-    % Debuging values
-    strategiesArray = [3, 4];
-    populationsArray = [1, 1];
-    matrix = [3, 1; 
-              4, 2];
-    rounds = 2;
+    % Prompt the user for the strategies, populations, payoff matrix, and rounds
+    [strategiesArray, populationsArray, matrix, rounds] = prompts();
 
     function players = InitPlayers(strategiesArray, populationsArray, rounds)
         % Define function handles for each player type
@@ -47,20 +43,11 @@ function PrisonersDilemma()
         for i = 1:length(players)
             players{i}.index = i;
             players{i} = players{i}.initHistory(rounds, length(players));
-            % % Debugging
-            % fprintf('Player %d history:\n', i);
-            % disp(players{i}.getHistory());
         end
     end
 
     % Initialize the players
     players = InitPlayers(strategiesArray, populationsArray, rounds);
-
-    % disp('Players initialized:');
-    % disp(players);
-
-    % disp('Number of players:');
-    % disp(length(players));
 
     % Initialize the axelrod tournament
     tournament = axelrod();
@@ -69,10 +56,6 @@ function PrisonersDilemma()
     disp('Tournament initialized:');
     disp(tournament);
     
-    % tournament = tournament.setRounds(rounds);
-    % disp('Rounds set:');
-    % disp(tournament.getRounds());
-
     % Run the tournament
     tournament = tournament.begin();
 
@@ -81,7 +64,6 @@ function PrisonersDilemma()
         {1, 2, 3, 4, 5}, ... % Strategy numbers
         {'Random', 'Cooperate', 'Defect', 'Tit for Tat', 'Grim'}... % Strategy names
     );
-
     totalScore = zeros(1, length(strategiesArray));
     counter = 1;
     for m = 1:length(strategiesArray)
