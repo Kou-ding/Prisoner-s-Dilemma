@@ -1,7 +1,9 @@
 addpath('strategies');
-function PrisonersDilemma()
-    % Prompt the user for the strategies, populations, payoff matrix, and rounds
-    [strategiesArray, populationsArray, matrix, rounds] = prompts();
+
+% Tweak the program's basic parameters via the script.m file
+script;
+
+function Axel(strategiesArray, populationsArray, matrix, rounds)
 
     function players = InitPlayers(strategiesArray, populationsArray, rounds)
         % Define function handles for each player type
@@ -73,7 +75,6 @@ function PrisonersDilemma()
         end
         fprintf('%s : %d points\n', playerStrategies(strategiesArray(m)), totalScore(m));
     end
-
 end
 
-PrisonersDilemma();
+Axel(strategiesArray, populationsArray, matrix, rounds);
