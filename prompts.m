@@ -42,7 +42,7 @@ function [strategiesArray, populationsArray, matrix, rounds] = prompts()
                             'Choice: '], 's');
         % Standard Prisoner's Dilemma payoff matrix
         if strcmp(payoffSelector, '1')
-            matrix =  [3, 1; 4, 2];
+            matrix = [3, 1; 4, 2];
             break;
         % Custom payoff matrix
         elseif strcmp(payoffSelector, '2')
@@ -83,3 +83,6 @@ function [strategiesArray, populationsArray, matrix, rounds] = prompts()
         end
     end
 end
+% % Add this at the start of the main function to prompt the user instead of using the script.m
+% % Prompt the user for the strategies, populations, payoff matrix, and rounds
+% [strategiesArray, populationsArray, matrix, rounds] = prompts();
