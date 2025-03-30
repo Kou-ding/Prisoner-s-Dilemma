@@ -8,11 +8,11 @@ In order to run the code:
 2. Run the main.m file
 
 ### Code's Structure
-This is a Game Theory Sandbox which allows the user to simulate games between different Players-Strategies. It is written in Object-oriented Matlab featuring two main Classes:
+This is a Game Theory Sandbox which allows the user to simulate games between different Players that encapsulate different Strategies. It is written in Object-oriented Matlab featuring two main Classes:
 - The Axelrod Class
 - The Player Class
 
-Each Strategy is a child Class of the Player Class and differentiates from it through one function, setMove(), and some extra attributes to help them implement their strategies' logic, if needed.
+Each Strategy is a child Class of the Player Class and differentiates itself from the rest through one function, setMove(), and some extra attributes that help implement the strategy's logic, if needed.
 
 ### Time Schedule
 | Week | Assignment | Percentage |
