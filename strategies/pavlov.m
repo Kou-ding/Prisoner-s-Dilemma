@@ -11,7 +11,7 @@ classdef pavlov < player
             if(currentRound == 1)
                 obj.move = 0;
             else
-                if obj.move == opponentsLastMove;
+                if (obj.move == opponentsLastMove)
                     obj.move = 0;
                 else 
                     obj.move = 1;
