@@ -65,7 +65,7 @@ classdef axelrod
                     for i = 1:population
                         % Dynamically call the constructor for the current strategy
                         constructorHandle = playerConstructors(strategyNumber); % Get the function handle
-                        obj.players{playerIndex} = constructorHandle(); % Call the constructor to create a player object
+                        obj.players{playerIndex} = constructorHandle(totalPlayers); % Call the constructor to create a player object
                         playerIndex = playerIndex + 1; % Move to the next position in the players array
                     end
                 else
@@ -116,12 +116,12 @@ classdef axelrod
             % Avoid accessing non-existent history
             if(currentRound==1 || currentRound<1)
                 % Set the player moves for the first round 
-                player1 = player1.setMove(0, currentRound); % First round
-                player2 = player2.setMove(0, currentRound); % First round
+                player1 = player1.setMove(0, player2.getIndex(), currentRound); % First round
+                player2 = player2.setMove(0, player2.getIndex(), currentRound); % First round
             else
                 % Set the next player moves utilizing the opponent's history
-                player1 = player1.setMove(player2.getHistoryElement(currentRound-1,player1.getIndex()), currentRound); % Previous round row 
-                player2 = player2.setMove(player1.getHistoryElement(currentRound-1,player2.getIndex()), currentRound); % Opponent's index column
+                player1 = player1.setMove(player2.getHistoryElement(currentRound-1,player1.getIndex()), player2.getIndex(), currentRound); % Previous round row 
+                player2 = player2.setMove(player1.getHistoryElement(currentRound-1,player2.getIndex()), player2.getIndex(), currentRound); % Opponent's index column
             end
             % Update the scores
             player1 = player1.setScore(obj.getPayoffMatrixElement(player1.move+1, player2.move+1));
