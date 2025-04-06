@@ -6,7 +6,7 @@ classdef slow_tft < player
             obj@player();
         end
          % Cooperates on the first two moves, defects after two consecutive defections,
-        % and returns to cooperation after two consecutive cooperations by the opponent.
+         % and returns to cooperation after two consecutive cooperations by the opponent.
         function obj = setMove(obj, ~, currentRound)
             
             if (currentRound <= 2)
