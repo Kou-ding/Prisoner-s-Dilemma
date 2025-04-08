@@ -11,7 +11,7 @@ classdef per_kind < player
       end
   
       function obj = setMove(obj,~,~)
-          switch obj.stste
+          switch obj.state
               case 0
                   obj.move = 0; % Begin by cooperating 
                   obj.state = 1;

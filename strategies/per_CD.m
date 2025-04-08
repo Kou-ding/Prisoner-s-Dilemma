@@ -11,7 +11,7 @@ classdef per_CD < player
         end
 
         function obj = setMove(obj, ~, ~)
-            if obj.internalState == 0
+            if (obj.internalState == 0)
                 obj.move = 0; % Cooperate
                 obj.internalState = 1;
             else
