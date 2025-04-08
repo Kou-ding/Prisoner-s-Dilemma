@@ -150,6 +150,15 @@ classdef axelrod
                 % Set the current round
                 obj = obj.setCurrentRound(i);
 
+                % Debugging
+                disp('Round finished, tournament state');
+                disp(obj);
+                
+                for j = 1:length(obj.players)
+                    fprintf('Player %d history:',j);
+                    disp(obj.players{j}.getHistory());
+                end
+
                 % Play the round
                 obj = obj.playRound();
             end
