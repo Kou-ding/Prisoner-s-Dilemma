@@ -1,39 +1,48 @@
 classdef gradual < player
 
     properties
-        punishQueue = 0;
-        calmSteps =0;
+        punishCount = 0;
+        calmCount = 0;
+        totalDefections = 0;
     end
 
     methods
         function obj = gradual()
-          obj@player();
+            obj@player();
         end
 
         function obj = setMove(obj, opponentLastMove, currentround)
-            
+
             if (currentround == 1)
-                obj.move = 0; % Always cooperate on the first move
-                return; % Skip the rest of the logic
+                obj.move = 0; % Cooperate initially
+                return;
             end
 
-            if (opponentLastMove == 1)
-                obj.punishQueue = obj.punishQueue + 1; % Add one punishment to the queue
+            % If currently punishing
+            if (obj.punishCount > 0)
+                obj.punishCount = obj.punishCount - 1;
+                obj.move = 1; % Defect
+                return;
             end
 
-            if (obj.punishQueue > 0) % Punishments are queued. Defect, decrease the queue by one
-                obj.move = 1;
-                obj.punishQueue = obj.punishQueue - 1;
-               
-                if (obj.punishQueue == 0) 
-                  obj.calmSteps = 2; % Enter calming phase
-                end
-            elseif (obj.calmSteps > 0)
+            % If currently calming
+            if (obj.calmCount > 0)
+                obj.calmCount = obj.calmCount - 1;
                 obj.move = 0; % Cooperate
-                obj.calmSteps = obj.calmSteps - 1;
-            else
-                obj.move = 0; % If calm,default to cooperation ???
+                return;
             end
+
+            % If opponent just defected
+            if (opponentLastMove == 1)
+                obj.totalDefections = obj.totalDefections + 1;
+                obj.punishCount = obj.totalDefections - 1;
+                obj.calmCount = 2;
+                obj.move = 1; % Defect
+                return;
+            end
+
+            % Default behavior
+            obj.move = 0; % Cooperate
         end
     end
 end

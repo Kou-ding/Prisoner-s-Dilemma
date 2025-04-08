@@ -1,3 +1,6 @@
+% Two counters, one for defect, one for cooperate, utilize opponentslastmove...
+
+
 classdef soft_majo < player
     
     methods
@@ -8,15 +11,15 @@ classdef soft_majo < player
 
         function obj = setMove(obj, ~, currentRound)
 
-            if (currentsround == 1)
+            if (currentRound == 1)
                 obj.move = 0; % Cooperate on the first move
                 return;
             end
 
             % Get all past opponent moves
             pastMoves = obj.history(1:currentRound-1, 1);
-            coopCount = sum(pastMoves == 0) % Cooperations
-            defectCount = sum(pastMoves == 1) % Defections
+            coopCount = sum(pastMoves == 0); % Cooperations
+            defectCount = sum(pastMoves == 1); % Defections
 
 
             if (defectCount > coopCount)

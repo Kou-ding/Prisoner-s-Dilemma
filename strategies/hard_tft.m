@@ -1,3 +1,5 @@
+% Implement two vars, previous round, previous-previous round, utilize opponentslastmove
+
 classdef hard_tft < player
 
     methods
@@ -13,9 +15,10 @@ classdef hard_tft < player
                 obj.move = 0; % Start by cooperating two times
             else
 
-                lasttwo = [obj.history(currentRound-2,1), obj.history(currentRound-1,1)];
+                % rename...
+                lasttwo = obj.history(currentRound-2,1) + obj.history(currentRound-1,1);
 
-                if (lasttwo == [1,1] || lasttwo == [1,0] || lasttwo == [0,1]) 
+                if (lasttwo > 0 ) 
                     
                     obj.move = 1;% Opponent defected at least once during last two rounds, so defect
                 else 
