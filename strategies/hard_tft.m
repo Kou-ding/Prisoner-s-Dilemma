@@ -8,7 +8,7 @@ classdef hard_tft < player
         % Constructor
         function obj = hard_tft(numberOfPlayers)
             obj@player();
-            obj.opponentlasttwo = zeros(numberofPlayers, 2);
+            obj.opponentlasttwo = zeros(numberOfPlayers, 2);
         end
          % Cooperates on the first two moves, defects after at least one defection in the last two rounds,
          % cooperates otherwise.

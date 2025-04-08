@@ -1,31 +1,36 @@
-% Two counters, one for defect, one for cooperate, utilize opponentslastmove...
-
-
 classdef soft_majo < player
-    
+
+    properties
+        opponentsMovecount = [];
+    end
+
     methods
         % Constructor
-        function obj = soft_majo()
+        function obj = soft_majo(numberOfPlayers)
             obj@player;
+            obj.opponentsMovecount = zeroes(numberOfPlayers,2);
         end
 
-        function obj = setMove(obj, ~, currentRound)
+        function obj = setMove(obj,opponentLastMove, opponentIndex,currentRound)
+
+            if (opponentLastMove == 0)
+                obj.opponentsMovecount(opponentIndex,1) = obj.opponentsMovecount(opponentIndex,1) + 1;
+            elseif (opponentLastMove == 1)
+                obj.opponentsMovecount(opponentIndex,2) = obj.opponentsMovecount(opponentIndex,2) + 1;
+            end
 
             if (currentRound == 1)
-                obj.move = 0; % Cooperate on the first move
+                obj.move = 0;
                 return;
             end
 
-            % Get all past opponent moves
-            pastMoves = obj.history(1:currentRound-1, 1);
-            coopCount = sum(pastMoves == 0); % Cooperations
-            defectCount = sum(pastMoves == 1); % Defections
+            coops = obj.opponentsMovecount(opponentIndex, 1);
+            defects = obj.opponentsMovecount(opponenIndex, 2);
 
-
-            if (defectCount > coopCount)
-                obj.move = 1; % If opponent mostly defected, defect
-            else
-                obj.move = 0; % Otherwise cooperate (including tie)
+            if (defects > coops)
+                obj.move = 1; % Defect if opponent mostly defected
+            else 
+                obj.move = 0; % Cooperate otherwise(including tie)
             end
         end
     end
