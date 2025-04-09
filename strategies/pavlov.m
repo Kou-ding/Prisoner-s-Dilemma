@@ -2,11 +2,11 @@ classdef pavlov < player
     % Pavlov's methods
     methods
          % Constructor
-        function obj = pavlov()
+        function obj = pavlov(~)
             obj@player();
         end
          % Pavlov: Cooperates on the first move, then cooperates only if the two players made the same move.
-        function obj = setMove(obj, opponentsLastMove, currentRound)
+        function obj = setMove(obj, opponentsLastMove, ~, currentRound)
 
             if(currentRound == 1)
                 obj.move = 0;

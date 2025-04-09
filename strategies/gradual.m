@@ -7,11 +7,11 @@ classdef gradual < player
     end
 
     methods
-        function obj = gradual()
+        function obj = gradual(~)
             obj@player();
         end
 
-        function obj = setMove(obj, opponentLastMove, currentround)
+        function obj = setMove(obj, opponentLastMove, ~, currentround)
 
             if (currentround == 1)
                 obj.move = 0; % Cooperate initially

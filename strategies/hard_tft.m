@@ -1,7 +1,7 @@
 classdef hard_tft < player
 
     properties
-        opponentlasttwo= [];
+        opponentlasttwo = [];
     end
 
     methods
@@ -14,9 +14,8 @@ classdef hard_tft < player
          % cooperates otherwise.
         function obj = setMove(obj, opponentLastMove, opponentIndex, currentRound)
             
-
-            obj.opponentlasttwo(opponentIndex, 1) = obj.opponentlasttwo(opponentIndex, 2)
-            obj.opponentlasttwo(opponentIndex, 2) = opponentLastMove
+            obj.opponentlasttwo(opponentIndex, 1) = obj.opponentlasttwo(opponentIndex, 2);
+            obj.opponentlasttwo(opponentIndex, 2) = opponentLastMove;
             if (currentRound <= 2)
                 obj.move = 0; % Start by cooperating two times
             else

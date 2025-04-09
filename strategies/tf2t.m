@@ -13,10 +13,8 @@ classdef tf2t < player
          % Cooperates on the first move, defects after two consecutive opponent defections,
          % cooperates otherwise.
         function obj = setMove(obj, opponentLastMove, opponentIndex, currentRound)
-            
-
-            obj.opponentlasttwo(opponentIndex, 1) = obj.opponentlasttwo(opponentIndex, 2)
-            obj.opponentlasttwo(opponentIndex, 2) = opponentLastMove
+            obj.opponentlasttwo(opponentIndex, 1) = obj.opponentlasttwo(opponentIndex, 2);
+            obj.opponentlasttwo(opponentIndex, 2) = opponentLastMove;
             if (currentRound == 1)
                 obj.move = 0; % Start by cooperating 
             else
