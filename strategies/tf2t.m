@@ -1,7 +1,7 @@
 classdef tf2t < player
 
     properties
-        opponentlasttwo= [];
+        opponentlasttwo = [];
     end
 
     methods

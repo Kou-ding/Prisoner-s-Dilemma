@@ -14,7 +14,7 @@
 % 13: Gradual
 % 14: Pavlov
 % 15: Mistrust 
-strategiesArray = [3, 13]; % Strategy numbers
-populationsArray = [1, 1]; % Population sizes
+strategiesArray = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]; % Strategy numbers
+populationsArray = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1]; % Population sizes
 matrix = [3, 1; 4, 2]; % Payoff matrix
 rounds = 20; % Number of rounds

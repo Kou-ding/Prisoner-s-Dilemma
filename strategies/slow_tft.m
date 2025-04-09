@@ -9,7 +9,7 @@ classdef slow_tft < player
         function obj = slow_tft(numberOfPlayers)
             
             obj@player();
-            obj.opponentsLasttwo = zeroes(numberOfPlayers, 2);
+            obj.opponentsLasttwo = zeros(numberOfPlayers, 2);
         end
 
          % Cooperates on the first  move, defects after two consecutive defections,
@@ -19,23 +19,16 @@ classdef slow_tft < player
             if (currentRound == 1)
                 obj.move = 0; % Start with a cooperation
             else
-
                 obj.opponentsLasttwo(opponenIndex, 1) = obj.opponentsLasttwo(opponenIndex, 2);
                 obj.opponentsLasttwo(opponenIndex, 2) = opponentLastMove;
                 lastTwo = obj.opponentsLasttwo(opponenIndex, :);
 
-
                 if (isequal(lastTwo, [1,1])) % Oppionent defected twice
-                    
                     obj.move = 1;
                 elseif (isequal(lastTwo, [0,0])) % Opponent cooperated twice
                     obj.move = 0;
-                else 
-                    % Otherwise, keep the same move as last round
                 end
-
             end
-
         end
     end
 end
