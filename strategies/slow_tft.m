@@ -1,3 +1,5 @@
+% Cooperates on the first  move, defects after two consecutive defections,
+% and returns to cooperation after two consecutive cooperations by the opponent
 classdef slow_tft < player
 
     properties
@@ -12,8 +14,6 @@ classdef slow_tft < player
             obj.opponentsLasttwo = zeros(numberOfPlayers, 2);
         end
 
-         % Cooperates on the first  move, defects after two consecutive defections,
-         % and returns to cooperation after two consecutive cooperations by the opponent.
         function obj = setMove(obj, opponentLastMove,opponenIndex, currentRound)
             
             if (currentRound == 1)

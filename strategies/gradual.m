@@ -1,3 +1,6 @@
+    % Cooperates on the first move, then defects n times after nth defections
+    % and calms down its opponent with two cooperations
+    
     classdef gradual < player
 
         properties

@@ -1,3 +1,5 @@
+% Cooperates on the first move, defects after two consecutive opponent defections,
+% cooperates otherwises
 classdef tf2t < player
 
     properties
@@ -10,8 +12,7 @@ classdef tf2t < player
             obj@player();
             obj.opponentlasttwo = zeros(numberOfPlayers, 2);
         end
-         % Cooperates on the first move, defects after two consecutive opponent defections,
-         % cooperates otherwise.
+         
         function obj = setMove(obj, opponentLastMove, opponentIndex, currentRound)
             obj.opponentlasttwo(opponentIndex, 1) = obj.opponentlasttwo(opponentIndex, 2);
             obj.opponentlasttwo(opponentIndex, 2) = opponentLastMove;

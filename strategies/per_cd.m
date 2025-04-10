@@ -1,3 +1,4 @@
+% Periodically plays cooperate,defect
 classdef per_cd < player
 
     properties

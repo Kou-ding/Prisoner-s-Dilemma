@@ -1,3 +1,4 @@
+% Makes a random move
 classdef random < player
     % Random's methods
     methods
@@ -6,7 +7,6 @@ classdef random < player
             obj@player(); % Call the constructor of the parent class
         end
 
-        % Make a random move
         function obj = setMove(obj, ~, ~, ~) % both arguments are not used
             obj.move = randi([0, 1]);
         end

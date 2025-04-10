@@ -1,3 +1,4 @@
+% Periodically plays cooperate, cooperate, defect
 classdef per_kind < player
   
     properties

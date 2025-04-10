@@ -1,3 +1,4 @@
+% Mistrust: Defect on first move, then play what the opponent played on the previous move
 classdef mistrust < player
     % Mistrust's methods
     methods
@@ -6,7 +7,6 @@ classdef mistrust < player
             obj@player();
         end
 
-        % Mistrust: Defect on first move, then play what the opponent played on the previous move.
         function obj = setMove(obj, opponentsLastMove, ~, currentRound)
 
             if(currentRound == 1)

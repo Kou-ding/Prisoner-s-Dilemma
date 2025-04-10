@@ -1,3 +1,5 @@
+% Plays th eopponent's most played move, cooperates in case of equality
+
 classdef soft_majo < player
 
     properties

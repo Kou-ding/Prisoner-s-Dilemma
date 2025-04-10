@@ -1,3 +1,4 @@
+% Cooperate until the opponent defects, then always defect
 classdef grim < player
     % Grim's Properties
     properties
@@ -10,7 +11,6 @@ classdef grim < player
             obj.opponentHasDefected = zeros(numberOfPlayers, 1); % Initialize the opponentHasDefected array
         end
         
-        % Cooperate until the opponent defects. Then, always defect.
         function obj = setMove(obj, opponentLastMove, opponentIndex, currentRound)
             if(currentRound==1)
                 obj.move = 0;

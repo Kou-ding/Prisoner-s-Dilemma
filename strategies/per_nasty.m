@@ -1,3 +1,4 @@
+% Periodically plays defect, defect, cooperate
 classdef per_nasty < player
   
     properties

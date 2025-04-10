@@ -1,3 +1,4 @@
+% Pavlov: Cooperates on the first move, then cooperates only if the two players made the same move
 classdef pavlov < player
     % Pavlov's properties
     properties
@@ -10,7 +11,7 @@ classdef pavlov < player
             obj@player();
             obj.previousMove = zeros(numberOfPlayers, 1);
         end
-         % Pavlov: Cooperates on the first move, then cooperates only if the two players made the same move.
+         
         function obj = setMove(obj, opponentLastMove, opponentIndex, currentRound)
 
             if(currentRound == 1)

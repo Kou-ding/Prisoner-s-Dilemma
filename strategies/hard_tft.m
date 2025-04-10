@@ -1,3 +1,5 @@
+% Cooperates on the first two moves, defects after at least one defection in the last two rounds,
+% cooperates otherwise
 classdef hard_tft < player
 
     properties
@@ -10,8 +12,7 @@ classdef hard_tft < player
             obj@player();
             obj.opponentlasttwo = zeros(numberOfPlayers, 2);
         end
-         % Cooperates on the first two moves, defects after at least one defection in the last two rounds,
-         % cooperates otherwise.
+         
         function obj = setMove(obj, opponentLastMove, opponentIndex, currentRound)
             
             obj.opponentlasttwo(opponentIndex, 1) = obj.opponentlasttwo(opponentIndex, 2);
