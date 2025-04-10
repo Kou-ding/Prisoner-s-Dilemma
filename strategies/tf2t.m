@@ -1,5 +1,5 @@
 % Cooperates on the first move, defects after two consecutive opponent defections,
-% cooperates otherwises
+% cooperates otherwise
 classdef tf2t < player
 
     properties
