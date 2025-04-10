@@ -14,7 +14,7 @@ This is a Game Theory Sandbox which allows the user to simulate games between di
 
 Each Strategy is a child Class of the Player Class and differentiates itself from the rest through one function, setMove(), and some extra attributes that help implement the strategy's logic, if needed.
 
-### Implementsd strategies index
+### Implemented strategies index
 #### Cooperate:
 Always cooperates.
 #### Defect:
@@ -33,7 +33,7 @@ Cooperates on the first  move, defects after two consecutive defections,
 and returns to cooperation after two consecutive cooperations by the opponent.
 #### Tit for 2 tat:
 Cooperates on the first move, defects after two consecutive opponent defections,
-cooperates otherwises.
+cooperates otherwise.
 #### Mistrust:
 Defects on first move, then play what the opponent played on the previous move.
 #### Pavlov: 
