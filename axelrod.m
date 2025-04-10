@@ -40,8 +40,8 @@ classdef axelrod
         function obj = InitPlayers(obj, strategiesArray, populationsArray, rounds)
             % Define function handles for each player type
             playerConstructors = containers.Map(...
-                {1, 2, 3, 4, 5}, ... % Strategy numbers
-                {@random, @cooperate, @defect, @tit_for_tat, @grim} ... % Corresponding constructors
+                {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}, ... % Strategy numbers
+                {@random, @cooperate, @defect, @grim, @tit_for_tat, @hard_tft, @slow_tft, @tf2t, @soft_majo, @per_cd, @per_kind, @per_nasty, @gradual, @pavlov, @mistrust} ... % Corresponding constructors
             );
         
             % Calculate the total number of players
@@ -117,11 +117,11 @@ classdef axelrod
             if(currentRound==1 || currentRound<1)
                 % Set the player moves for the first round 
                 player1 = player1.setMove(0, player2.getIndex(), currentRound); % First round
-                player2 = player2.setMove(0, player2.getIndex(), currentRound); % First round
+                player2 = player2.setMove(0, player1.getIndex(), currentRound); % First round
             else
                 % Set the next player moves utilizing the opponent's history
                 player1 = player1.setMove(player2.getHistoryElement(currentRound-1,player1.getIndex()), player2.getIndex(), currentRound); % Previous round row 
-                player2 = player2.setMove(player1.getHistoryElement(currentRound-1,player2.getIndex()), player2.getIndex(), currentRound); % Opponent's index column
+                player2 = player2.setMove(player1.getHistoryElement(currentRound-1,player2.getIndex()), player1.getIndex(), currentRound); % Opponent's index column
             end
             % Update the scores
             player1 = player1.setScore(obj.getPayoffMatrixElement(player1.move+1, player2.move+1));
@@ -152,6 +152,16 @@ classdef axelrod
 
                 % Play the round
                 obj = obj.playRound();
+
+                % Debugging
+                disp('Round finished, tournament state');
+                disp(obj);
+                % Print the players' history table
+                for j = 1:length(obj.players)
+                    fprintf('Player %d history:\n',j);
+                    disp(obj.players{j}.getHistory());
+                end
+     
             end
         end
         
@@ -160,8 +170,9 @@ classdef axelrod
         function printResults(obj, strategiesArray, populationsArray)
             % Calculate the total score for each player class
             playerStrategies = containers.Map(...
-                {1, 2, 3, 4, 5}, ... % Strategy numbers
-                {'Random', 'Cooperate', 'Defect', 'Tit for Tat', 'Grim'}... % Strategy names
+                {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}, ... % Strategy numbers
+                {'Random', 'Cooperate', 'Defect', 'Grim', 'Tit for Tat', 'Hard Tit for Tat', 'Slow Tit for Tat', 'Tit for two Tat', ...
+                'Soft Majority', 'Periodic Cooperate Defect', 'Periodic Kind', 'Periodic Nasty', 'Gradual', 'Pavlov', 'Mistrust' }... % Strategy names
             );
             totalScore = zeros(1, length(strategiesArray));
             counter = 1;
