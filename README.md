@@ -64,5 +64,8 @@ Plays the opponent's most played move, cooperates in case of equality.
 |09/05/2025|Genetic Axelrod tournament|30%|
 |23/05/2025|Genetic WinPrisoner tournament|20%|
 
-### To-do List
-- [ ] Fill to do list
+### Ομάδα 3:
+**Δάϊος Γρηγόρης**, grigorad@ece.auth.gr, ΑΕΜ:10334  
+**Ναζλίδης Σωκράτης**, snazlidi@ece.auth.gr, ΑΕΜ:10687  
+**Παπαδάκης Κωνσταντίνος Φώτιος**, kpapadak@ece.auth.gr, ΑΕΜ:10371  
+**Γεωργίου-Μουσσές Ιωάννης**, georgioui@ece.auth.gr, ΑΕΜ:10783  
