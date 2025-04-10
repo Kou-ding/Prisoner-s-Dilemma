@@ -156,13 +156,12 @@ classdef axelrod
                 % Debugging
                 disp('Round finished, tournament state');
                 disp(obj);
-                
+                % Print the players' history table
                 for j = 1:length(obj.players)
                     fprintf('Player %d history:\n',j);
                     disp(obj.players{j}.getHistory());
                 end
-
-                
+     
             end
         end
         
