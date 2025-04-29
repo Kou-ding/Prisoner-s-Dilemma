@@ -3,6 +3,32 @@ addpath('strategies');
 % Tweak the program's basic parameters via the script.m file
 script;
 
+function TourTheFit(matrix,strategiesArray, populationsArray, rounds, generations)
+    tournament = genaxel(); 
+    tournament.callTourTheFit(matrix, strategiesArray, populationsArray, rounds, generations);
+end
+
+
+TourTheFit(matrix, strategiesArray, populationsArray, rounds, generations);
+
+
+function TourSimFit(matrix, strategiesArray, populationsArray, rounds, generations)
+    
+    tournament = genaxel();
+    tournament.callTourSimFit(matrix, strategiesArray, populationsArray, rounds, generations);
+end
+
+%TourSimFit(matrix, strategiesArray, populationsArray, rounds, generations);
+
+function TourSimImit(matrix, strategiesArray, populationsArray, K , rounds, generations)
+    
+    tournament = genaxel();
+    tournament.callTourSimImi(matrix, strategiesArray, populationsArray, K , rounds, generations);
+end
+
+%TourSimImit(matrix, strategiesArray, populationsArray,K, rounds, generations);
+
+
 function Axel(strategiesArray, populationsArray, matrix, rounds)
 
     % Create an axelrod tournament
@@ -23,4 +49,3 @@ function Axel(strategiesArray, populationsArray, matrix, rounds)
     tournament.printResults(strategiesArray, populationsArray);
 end
 
-Axel(strategiesArray, populationsArray, matrix, rounds);
