@@ -18,40 +18,46 @@
 % 17: Prober
 
 % Mode
-mode = "Defectors may be strong";
+mode = 4;
 K = 5;
 switch mode
-    case "Default"
+    % Custom
+    case 1
         strategiesArray = [2, 3]; % Strategy numbers
         populationsArray = [1, 1]; % Population sizes
         matrix = [3, 0; 5, 1]; % Payoff matrix
         rounds = 10; % Number of rounds
         generations = 90;
-    case "Defectors may be strong"
+    % Defectors may be strong
+    case 2
         strategiesArray = [9, 10, 12]; % soft_majo, per_cd, per_ddc
         populationsArray = [100, 100, 100];
         matrix = [3, 0; 5, 1];
         rounds = 1000;
         generations = 90;
-    case "Monotonous convergence"
+    % Monotonous convergence
+    case 3
         strategiesArray = [5, 10, 13]; % tft, per_cd, gradual
         populationsArray = [100, 100, 100];
         matrix = [3, 0; 5,1];
         rounds = 1000;
         generations = 90;
-    case "Attenuated oscillatory movements"
+    % Attenuated oscillatory movements
+    case 4
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
         populationsArray = [100, 450, 1000];
         matrix = [3, 0; 5,1];
         rounds = 1000;
-        generations = 400 ;
-    case "Periodic movements"
+        generations = 450;
+    % Periodic movements
+    case 5
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
         populationsArray = [100, 300, 200];
         matrix = [3, 0; 5,1];
         rounds = 100;
         generations = 90;
-    case "Disordered oscillations"
+    % Disordered oscillations
+    case 6
         strategiesArray = [9, 16, 17]; % soft_majo, per_ccccd, prober
         populationsArray = [100, 500, 800];
         matrix = [3, 0; 5,1];
