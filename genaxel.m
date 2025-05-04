@@ -1,7 +1,6 @@
 classdef  genaxel
     properties
-        
-        
+               
     end
         % function TourTheFit wher b is the payoff matrix of row player
         % strategies is the array of strategies
@@ -17,7 +16,6 @@ classdef  genaxel
             % Constructor for the genaxel class
             % Initialize any properties if needed
         end
-
 
         %{      
             function TourTheFit(obj, b , strategies , pop0 , T , J ) . Σε αυτη τη συνάρτηση 
@@ -38,8 +36,7 @@ classdef  genaxel
             %population is a matrix of size 1*2 
             
             totalplayers = sum(Wn); % Total number of players in the population
-
-            
+  
             oneVone = ones(1,2);
             Gn = zeros(1,length(strategies)); % Gn is the score of each strategy
             Tn = 0; % Total score of the generation
@@ -59,12 +56,42 @@ classdef  genaxel
                 % Update the score of the strategy i by removing the self-play score    
                 Tn = Tn + Gn(i)*Wn(i) ; % Update the total score
             end
-            %the update will be implemented as such
+            % Add the decimals to the population of a fixed index
+            % for i = 1:length(strategies)
+            %     Wn(i) = floor(totalplayers * Gn(i)*Wn(i) / Tn);
+               
+            % end
+            % Wn(length(strategies)-2) = Wn(length(strategies)-2) + 1;
+
+            % Add the decimals to the index closest to 1
+            ypolipo = zeros(1,length(strategies));
+
             for i = 1:length(strategies)
-                Wn(i) = floor( totalplayers * Gn(i)*Wn(i) / Tn)  ;
+                Wn(i) = totalplayers * Gn(i)*Wn(i) / Tn;
+                ypolipo(i) = Wn(i)  - floor(Wn(i));
+                Wn(i) = floor(Wn(i));
             end
+
             
+            sumypolipo = sum(ypolipo); % Add all the decimals of the ypolipo array
             
+            % Track remainder values
+            % disp("Wn:");
+            % disp(Wn);
+            % disp("ypolipo:");
+            % disp(ypolipo);
+            % disp("sumypolipo:");
+            % disp(sumypolipo);
+
+            [maxypolipo,maxypolipoIndex] = max(ypolipo);
+            % Wn(maxypolipoIndex) = Wn(maxypolipoIndex) + sumypolipo; % Add the decimal part to the index with the maximum value
+            % Track the biggest decimal value and index
+            % disp("Max index:");
+            % disp(maxypolipoIndex);
+            % disp("Max value:");
+            % disp(maxypolipo);
+            [maxValue,maxIndex] = max(Wn);
+            Wn(maxIndex) = Wn(maxIndex) + sumypolipo; % Add 1 to the index with the maximum value  
         end
         
         
@@ -85,9 +112,7 @@ classdef  genaxel
                 
             end
             
-            
-                    
-            
+ 
             %{
             for i = 1:J
                 disp(popHistory(i,:));
@@ -97,19 +122,8 @@ classdef  genaxel
             plotgen(obj, J , popHistory , strategies);   
                                                                            
         end
-            % Method to initialize the population of players
-        %{  
-            
-        
-        
-        
-        %}
-        
+       
         function [obj,Wn] = TourSimFit(obj, b , strategies , pop0 , T , J )
-            
-
-           
-            
             tournament = axelrod(); % Create an axelrod tournament  
             tournament = tournament.InitPlayers(strategies,pop0,T); % Initialize players
             tournament = tournament.initAxel(tournament.players,b,T); % Initialize the tournament with players and payoff matrix
@@ -147,18 +161,6 @@ classdef  genaxel
         end            
         
         function [obj,Wn] = TourSimImi(obj, b , strategies , pop0 , K , T , J)
-           
-            %{  
-            tournament = axelrod(); % Create an axelrod tournament  
-            tournament = tournament.InitPlayers(strategies,pop0,T); % Initialize players
-            tournament = tournament.initAxel(tournament.players,b,T); % Initialize the tournament with players and payoff matrix
-            tournament = tournament.begin(); % Run the tournament
-            popscore = zeros(1,length(strategies)); % Initialize the  score of each population
-            counter = 1;
-            Wn = pop0; % Wn is the population of generation n
-            %}
-            
-            
             V = zeros(length(strategies),length(strategies));
             Wn = pop0; % Wn is the population of generation n  
             oneVone = ones(1,2);
@@ -206,17 +208,21 @@ classdef  genaxel
             
             newIndex = indexBest;
             for i = 1:K
-                while newIndex == indexBest
-                    % select a random index from the pop array .if its same with best index, do it again
-                    newIndex = randi(length(Wn)); % Select a random index from the population array
+                % Check if a population is zero
+                zerop = find(Wn == 0);
+                
+                if length(zerop) < (length(strategies) - 1)
+                    
+                    while newIndex == indexBest  || ismember(newIndex,zerop)
+                        % Select a random index from the pop array .if its same with best index, do it again
+                        newIndex = randi(length(Wn)); % Select a random index from the population array                        
+                    end
+                    
+                    Wn(newIndex) = Wn(newIndex) - 1; % Decrease the population of the selected index by 1
+                    Wn(indexBest) = Wn(indexBest) + 1; % Increase the population of the best index by 1
+                    newIndex = indexBest; % Reset the new index for the next iteration
                 end
-                Wn(newIndex) = Wn(newIndex) - 1; % Decrease the population of the selected index by 1
-                Wn(indexBest) = Wn(indexBest) + 1; % Increase the population of the best index by 1
-                newIndex = indexBest; % Reset the new index for the next iteration
-
-            end
-            
-            
+            end  
         end
 
 
@@ -232,10 +238,6 @@ classdef  genaxel
             plotgen(obj, J , popHistory , strategies); % Call the plotgen function to plot the results
         end
             
-
-    
-   
-        
         function obj = plotgen( obj , generations , popHistory , strategies)
             numofgenerations = generations;
             strategiesArray = strategies;
@@ -270,9 +272,9 @@ classdef  genaxel
             set(htitle,'Interpreter','latex');
 
             namesofstrategies = containers.Map(...
-                {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}, ... % Strategy numbers
+                {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17}, ... % Strategy numbers
                 {'Random', 'Cooperate', 'Defect', 'Grim', 'Tit for Tat', 'Hard Tit for Tat', 'Slow Tit for Tat', 'Tit for two Tat', ...
-                'Soft Majority', 'Periodic Cooperate Defect', 'Periodic Kind', 'Periodic Nasty', 'Gradual', 'Pavlov', 'Mistrust' }... % Strategy names
+                'Soft Majority', 'Periodic Cooperate Defect', 'Periodic Kind', 'Periodic Nasty', 'Gradual', 'Pavlov', 'Mistrust', 'Periodic Ultra Kind', 'Prober' }... % Strategy names
             );
 
             legendstrings=cell(totalstrategies,1);

@@ -40,8 +40,8 @@ classdef axelrod
         function obj = InitPlayers(obj, strategiesArray, populationsArray, rounds)
             % Define function handles for each player type
             playerConstructors = containers.Map(...
-                {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}, ... % Strategy numbers
-                {@random, @cooperate, @defect, @grim, @tit_for_tat, @hard_tft, @slow_tft, @tf2t, @soft_majo, @per_cd, @per_kind, @per_nasty, @gradual, @pavlov, @mistrust} ... % Corresponding constructors
+                {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17}, ... % Strategy numbers
+                {@random, @cooperate, @defect, @grim, @tit_for_tat, @hard_tft, @slow_tft, @tf2t, @soft_majo, @per_cd, @per_kind, @per_nasty, @gradual, @pavlov, @mistrust, @per_ccccd, @prober} ... % Corresponding constructors
             );
         
             % Calculate the total number of players
@@ -170,9 +170,9 @@ classdef axelrod
         function printResults(obj, strategiesArray, populationsArray)
             % Calculate the total score for each player class
             playerStrategies = containers.Map(...
-                {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15}, ... % Strategy numbers
+                {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17}, ... % Strategy numbers
                 {'Random', 'Cooperate', 'Defect', 'Grim', 'Tit for Tat', 'Hard Tit for Tat', 'Slow Tit for Tat', 'Tit for two Tat', ...
-                'Soft Majority', 'Periodic Cooperate Defect', 'Periodic Kind', 'Periodic Nasty', 'Gradual', 'Pavlov', 'Mistrust' }... % Strategy names
+                'Soft Majority', 'Periodic Cooperate Defect', 'Periodic Kind', 'Periodic Nasty', 'Gradual', 'Pavlov', 'Mistrust','Periodic Ultra Kind', 'Prober' }... % Strategy names
             );
             totalScore = zeros(1, length(strategiesArray));
             counter = 1;
