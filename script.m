@@ -14,53 +14,99 @@
 % 13: Gradual 🗸
 % 14: Pavlov 🗸
 % 15: Mistrust 🗸
-% 16: Periodic Very Kind (per_ccccd)
+% 16: Periodic Ultra Kind (per_ccccd)
 % 17: Prober
 
 % Mode
-mode = 4;
+mode = "Population size sensitivity";
 K = 5;
 switch mode
     % Custom
-    case 1
-        strategiesArray = [2, 3]; % Strategy numbers
-        populationsArray = [1, 1]; % Population sizes
+    case "Custom"
+        strategiesArray = [2, 3, 5]; % Strategy numbers
+        populationsArray = [10, 10, 10]; % Population sizes
         matrix = [3, 0; 5, 1]; % Payoff matrix
-        rounds = 10; % Number of rounds
+        rounds = 100; % Number of rounds
         generations = 90;
     % Defectors may be strong
-    case 2
+    case "Defectors may be strong"
         strategiesArray = [9, 10, 12]; % soft_majo, per_cd, per_ddc
         populationsArray = [100, 100, 100];
         matrix = [3, 0; 5, 1];
         rounds = 1000;
         generations = 90;
     % Monotonous convergence
-    case 3
+    case "Monotonous convergence"
         strategiesArray = [5, 10, 13]; % tft, per_cd, gradual
         populationsArray = [100, 100, 100];
         matrix = [3, 0; 5,1];
         rounds = 1000;
-        generations = 90;
+        generations = 10;
     % Attenuated oscillatory movements
-    case 4
+    case "Attenuated oscillatory movements"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
         populationsArray = [100, 450, 1000];
         matrix = [3, 0; 5,1];
         rounds = 1000;
         generations = 450;
     % Periodic movements
-    case 5
+    case "Periodic movements"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
         populationsArray = [100, 300, 200];
         matrix = [3, 0; 5,1];
-        rounds = 100;
-        generations = 90;
+        rounds = 1000;
+        generations = 1000;
+    % Increasing oscillations
+    case "Increasing oscillations"
+        strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
+        populationsArray = [200, 300, 400];
+        matrix = [3, 0; 5,1];
+        rounds = 1000;
+        generations = 450;
     % Disordered oscillations
-    case 6
+    case "Disordered oscillations"
         strategiesArray = [9, 16, 17]; % soft_majo, per_ccccd, prober
         populationsArray = [100, 500, 800];
         matrix = [3, 0; 5,1];
-        rounds = 100;
-        generations = 90;
+        rounds = 1000;
+        generations = 300;
+    % Population size sensitivity
+    case "Population size sensitivity"
+        strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
+        populationsArray = [100, 300, 244]; % 244 -> 245
+        matrix = [3, 0; 5,1];
+        rounds = 1000;
+        generations = 50;
+
+    case "Population size sensitivity 2"
+        strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
+        populationsArray = [159, 100, 100]; % 159 -> 160
+        matrix = [3, 0; 5,1];
+        rounds = 1000;
+        generations = 50;
+    case "Population size sensitivity 3"
+        strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
+        populationsArray = [100, 300, 244];
+        matrix = [3, 0; 5,1];
+        rounds = 7; % 7 -> 6
+        generations = 50;
+    case "Population size sensitivity 4"
+        strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
+        populationsArray = [100, 300, 244];
+        matrix = [3, 0; 4.6,1]; % 4.6 -> 4.7
+        rounds = 7; 
+        generations = 50;
+    % Rounding difference
+    case "Population size sensitivity 5"
+        strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
+        populationsArray = [100, 300, 200];
+        matrix = [3, 0; 5,1];
+        rounds = 1000; 
+        generations = 50;
+    case "Population size sensitivity 6"
+        strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
+        populationsArray = [100, 450, 1000];
+        matrix = [3, 0; 5,1];
+        rounds = 1000; 
+        generations = 50;
 end
