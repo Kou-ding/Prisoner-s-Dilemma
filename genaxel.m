@@ -27,7 +27,7 @@ classdef  genaxel
             Mathieu ενημερωνουμε τους πλυθησμους της γενιας n + 1.
         %}
 
-        function [obj,Wn,V] = TourTheFit(obj, b , strategies , pop0 , T , J )
+        function [obj,Wn,V] = TourTheFit(obj, b , strategies , pop0 , T , J , rounding)
             % V stores the strategies interactions with one another
             V = zeros(length(strategies),length(strategies));
             Wn = pop0; % Wn is the population of generation n
@@ -63,35 +63,43 @@ classdef  genaxel
             % end
             % Wn(length(strategies)-2) = Wn(length(strategies)-2) + 1;
 
-            % Add the decimals to the index closest to 1
-            ypolipo = zeros(1,length(strategies));
+            %%%%%%%% DECIMAL REDISTRIBUTION %%%%%%%%%%%%%
+            if rounding == true
+                % Add the decimals to the index closest to 1
+                ypolipo = zeros(1,length(strategies));
 
-            for i = 1:length(strategies)
-                Wn(i) = totalplayers * Gn(i)*Wn(i) / Tn;
-                ypolipo(i) = Wn(i)  - floor(Wn(i));
-                Wn(i) = floor(Wn(i));
+                for i = 1:length(strategies)
+                    Wn(i) = totalplayers * Gn(i)*Wn(i) / Tn;
+                    ypolipo(i) = Wn(i)  - floor(Wn(i));
+                    Wn(i) = floor(Wn(i));
+                end
+
+                
+                sumypolipo = sum(ypolipo); % Add all the decimals of the ypolipo array
+                
+                % Track remainder values
+                % disp("Wn:");
+                % disp(Wn);
+                % disp("ypolipo:");
+                % disp(ypolipo);
+                % disp("sumypolipo:");
+                % disp(sumypolipo);
+
+                % [maxypolipo,maxypolipoIndex] = max(ypolipo);
+                % Wn(maxypolipoIndex) = Wn(maxypolipoIndex) + sumypolipo; % Add the decimal part to the index with the maximum value
+                % Track the biggest decimal value and index
+                % disp("Max index:");
+                % disp(maxypolipoIndex);
+                % disp("Max value:");
+                % disp(maxypolipo);
+                [maxValue,maxIndex] = max(Wn);
+                Wn(maxIndex) = Wn(maxIndex) + sumypolipo; % Add 1 to the index with the maximum value  
             end
-
-            
-            sumypolipo = sum(ypolipo); % Add all the decimals of the ypolipo array
-            
-            % Track remainder values
-            % disp("Wn:");
-            % disp(Wn);
-            % disp("ypolipo:");
-            % disp(ypolipo);
-            % disp("sumypolipo:");
-            % disp(sumypolipo);
-
-            [maxypolipo,maxypolipoIndex] = max(ypolipo);
-            % Wn(maxypolipoIndex) = Wn(maxypolipoIndex) + sumypolipo; % Add the decimal part to the index with the maximum value
-            % Track the biggest decimal value and index
-            % disp("Max index:");
-            % disp(maxypolipoIndex);
-            % disp("Max value:");
-            % disp(maxypolipo);
-            [maxValue,maxIndex] = max(Wn);
-            Wn(maxIndex) = Wn(maxIndex) + sumypolipo; % Add 1 to the index with the maximum value  
+            if rounding == false
+                for i = 1:length(strategies)
+                    Wn(i) = totalplayers * Gn(i)*Wn(i) / Tn;
+                end
+            end
         end
         
         
@@ -102,13 +110,13 @@ classdef  genaxel
         Στο τελος καλουμε την συνάρτηση plotgen για να δουμε την εξελιξη του πλυθησμου καθε στρατηγικης.      παιρνουμε ενα πινακα με τον πλυθησμους σε καθε γενια τον οποιο τον φτιαχνουμε καλωντας 
                    
         %}
-        function obj = callTourTheFit(obj, b , strategies , pop0 , T , J )
+        function obj = callTourTheFit(obj, b , strategies , pop0 , T , J, rounding )
             popHistory = zeros(J,length(strategies));   
             Wn = pop0; % Wn is the population of generation n
             %we will implement a axelrod tournament for two strategies of population 1 each time
             for i = 1:J
                 popHistory(i,:) = Wn; % Store the population of generation i 
-                [obj,Wn]  = TourTheFit(obj, b , strategies , Wn , T , 1 );
+                [obj,Wn]  = TourTheFit(obj, b , strategies , Wn , T , 1, rounding);
                 
             end
             
