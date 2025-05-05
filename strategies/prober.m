@@ -21,21 +21,24 @@ classdef prober < player
                     obj.move = 1; % Then defects
                     obj.state(opponentIndex, 1) = 2;
                 case 2
-                    obj.move = 0; % Cooperates and sees if the opponent retaliates 
+                    obj.move = 0; % Cooperates and waits to see if the opponent retaliates 
+                    obj.state(opponentIndex, 1) = 3;
+                case 3
+                    obj.move = 1; % Defects
                     if opponentLastMove == 1
-                        obj.state(opponentIndex, 1) = 3; % If opponent defected, move to state 3
+                        obj.state(opponentIndex, 1) = 4; % Adopts tit-for-tat
                     else
-                        obj.state(opponentIndex, 1) = 4; % Otherwise, move to state 4
+                        obj.state(opponentIndex, 1) = 5; % Adopts all-d
                     end
                     obj.state(opponentIndex, 1) = 3;
                 % Opponent isn't exploitable -> Tit-for-tat
-                case 3
-                    obj.move = opponentLastMove;
-                    obj.state(opponentIndex, 1) = 3;
-                % Opponent is exploitable -> Defect
                 case 4
-                    obj.move = 1;
+                    obj.move = opponentLastMove;
                     obj.state(opponentIndex, 1) = 4;
+                % Opponent is exploitable -> Defect
+                case 5
+                    obj.move = 1;
+                    obj.state(opponentIndex, 1) = 5;
             end
         end
     end
