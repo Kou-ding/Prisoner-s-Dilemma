@@ -1,4 +1,6 @@
+% Include all strategies
 addpath('strategies');
+
 % Strategy correspondance
 % 1: Random 🗸
 % 2: Cooperate 🗸
@@ -22,12 +24,18 @@ addpath('strategies');
 sim_mode = "TourTheFit";
 
 % Meeting Mode
-meeting_mode = "Game length sensitivity before";
+meeting_mode = "Population size sensitivity before";
 
-% Number of players that imitate
+% Number of players that imitate per generation
 K = 5;
 
-rounding = true;
+% Rounding method
+% pop: Attributes decimals to the largest population/s
+% dec: Attributes decimals to the populations closer to the next integer
+% off: Turns off rounding 
+% When there is hard pinning of the rounding method inside the meetings,
+% it is to state the rounding method that most closely recreates the plots of the paper
+rounding = "dec";
 
 switch meeting_mode
     % Custom
@@ -45,6 +53,7 @@ switch meeting_mode
         matrix = [3, 0; 5, 1];
         rounds = 1000;
         generations = 90;
+        rounding = "pop";
 
     % Monotonous convergence 🗸
     case "Monotonous convergence"
@@ -53,6 +62,7 @@ switch meeting_mode
         matrix = [3, 0; 5,1];
         rounds = 1000;
         generations = 10;
+        rounding = "dec";
 
     % Attenuated oscillatory movements 🗸 
     case "Attenuated oscillatory movements"
@@ -61,56 +71,63 @@ switch meeting_mode
         matrix = [3, 0; 5,1];
         rounds = 1000;
         generations = 450;
+        rounding = "dec";
 
-    % Periodic movements X
+    % Periodic movements 🗸
     case "Periodic movements"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
         populationsArray = [100, 300, 200];
         matrix = [3, 0; 5,1];
         rounds = 1000;
         generations = 1000;
+        rounding = "dec";
 
     % Increasing oscillations X
     case "Increasing oscillations"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
-        populationsArray = [300, 300, 400];
+        populationsArray = [200, 300, 400];
         matrix = [3, 0; 5,1];
         rounds = 1000;
         generations = 450;
 
-    % Disordered oscillations X
+    % Disordered oscillations 🗸
     case "Disordered oscillations"
         strategiesArray = [9, 16, 17]; % soft_majo, per_ccccd, prober
         populationsArray = [100, 500, 800];
         matrix = [3, 0; 5,1];
         rounds = 1000;
         generations = 300;
+        rounding = "off";
 
     % Population size sensitivity 🗸
     case "Population size sensitivity before"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
-        populationsArray = [100, 300, 252]; % 252 -> 253
+        populationsArray = [100, 300, 235]; % 235 -> 236
         matrix = [3, 0; 5,1];
         rounds = 1000;
         generations = 1000;
+        rounding = "dec";
     case "Population size sensitivity after"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
-        populationsArray = [100, 300, 253]; % 252 -> 253
+        populationsArray = [100, 300, 236]; % 235 -> 236
         matrix = [3, 0; 5,1];
         rounds = 1000;
-        generations = 50;
+        generations = 16;
+        rounding = "dec";
     case "Population size sensitivity 2 before"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
         populationsArray = [185, 100, 100]; % 194 -> 195
         matrix = [3, 0; 5,1];
         rounds = 1000;
         generations = 120;
+        rounding = "dec";
     case "Population size sensitivity 2 after"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
         populationsArray = [186, 100, 100]; % 194 -> 195
         matrix = [3, 0; 5,1];
         rounds = 1000;
         generations = 40;
+        rounding = "dec";
 
     % Game length sensitivity 🗸
     case "Game length sensitivity before"
@@ -153,7 +170,7 @@ switch meeting_mode
         matrix = [3, 0; 5,1];
         rounds = 1000; 
         generations = 1000;
-        rounding = false;
+        rounding = "off";
     case "Rounding method sensitivity 2 before"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
         populationsArray = [100, 450, 1000];

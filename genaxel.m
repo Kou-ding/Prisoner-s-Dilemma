@@ -64,38 +64,39 @@ classdef  genaxel
             % Wn(length(strategies)-2) = Wn(length(strategies)-2) + 1;
 
             %%%%%%%% DECIMAL REDISTRIBUTION %%%%%%%%%%%%%
-            if rounding == true
-                % Add the decimals to the index closest to 1
-                ypolipo = zeros(1,length(strategies));
+            if rounding == "pop"
+                remainder = zeros(1, length(strategies));
 
                 for i = 1:length(strategies)
                     Wn(i) = totalplayers * Gn(i)*Wn(i) / Tn;
-                    ypolipo(i) = Wn(i)  - floor(Wn(i));
+                    remainder(i) = Wn(i) - floor(Wn(i));
                     Wn(i) = floor(Wn(i));
                 end
-
-                
-                sumypolipo = sum(ypolipo); % Add all the decimals of the ypolipo array
-                
-                % Track remainder values
-                % disp("Wn:");
-                % disp(Wn);
-                % disp("ypolipo:");
-                % disp(ypolipo);
-                % disp("sumypolipo:");
-                % disp(sumypolipo);
-
-                % [maxypolipo,maxypolipoIndex] = max(ypolipo);
-                % Wn(maxypolipoIndex) = Wn(maxypolipoIndex) + sumypolipo; % Add the decimal part to the index with the maximum value
-                % Track the biggest decimal value and index
-                % disp("Max index:");
-                % disp(maxypolipoIndex);
-                % disp("Max value:");
-                % disp(maxypolipo);
-                [maxValue,maxIndex] = max(Wn);
-                Wn(maxIndex) = Wn(maxIndex) + sumypolipo; % Add 1 to the index with the maximum value  
+            
+                remaining = totalplayers - sum(Wn);  % How many individuals to redistribute
+                [~, sortedIndices] = sort(Wn, 'descend');  % Use Wn values to pick top strategies
+            
+                for k = 1:remaining
+                    Wn(sortedIndices(k)) = Wn(sortedIndices(k)) + 1;
+                end
             end
-            if rounding == false
+            if rounding == "dec"
+                remainder = zeros(1, length(strategies));
+            
+                for i = 1:length(strategies)
+                    Wn(i) = totalplayers * Gn(i) * Wn(i) / Tn;
+                    remainder(i) = Wn(i) - floor(Wn(i));
+                    Wn(i) = floor(Wn(i));
+                end
+            
+                remaining = totalplayers - sum(Wn);  % How many people we still need to assign
+                [~, sortedIndices] = sort(remainder, 'descend');  % Sort by largest decimals
+            
+                for k = 1:remaining
+                    Wn(sortedIndices(k)) = Wn(sortedIndices(k)) + 1;
+                end
+            end            
+            if rounding == "off"
                 for i = 1:length(strategies)
                     Wn(i) = totalplayers * Gn(i)*Wn(i) / Tn;
                 end
