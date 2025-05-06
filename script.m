@@ -24,7 +24,7 @@ addpath('strategies');
 sim_mode = "TourTheFit";
 
 % Meeting Mode
-meeting_mode = "Population size sensitivity before";
+meeting_mode = "Custom";
 
 % Number of players that imitate per generation
 K = 5;
@@ -116,18 +116,18 @@ switch meeting_mode
         rounding = "dec";
     case "Population size sensitivity 2 before"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
-        populationsArray = [185, 100, 100]; % 194 -> 195
+        populationsArray = [181, 100, 100]; % 181 -> 182
         matrix = [3, 0; 5,1];
         rounds = 1000;
         generations = 120;
-        rounding = "dec";
+        rounding = "pop";
     case "Population size sensitivity 2 after"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
-        populationsArray = [186, 100, 100]; % 194 -> 195
+        populationsArray = [182, 100, 100]; % 181 -> 182
         matrix = [3, 0; 5,1];
         rounds = 1000;
-        generations = 40;
-        rounding = "dec";
+        generations = 50;
+        rounding = "pop";
 
     % Game length sensitivity 🗸
     case "Game length sensitivity before"
@@ -136,26 +136,30 @@ switch meeting_mode
         matrix = [3, 0; 5,1];
         rounds = 7; % 7 -> 6
         generations = 1000;
+        rounding = "dec";
     case "Game length sensitivity after"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
         populationsArray = [100, 300, 244];
         matrix = [3, 0; 5,1];
         rounds = 6; % 7 -> 6
         generations = 250;
+        rounding = "dec";
 
     % Payoff matrix sensitivity 🗸
     case "Payoff matrix sensitivity before"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
         populationsArray = [100, 300, 244];
-        matrix = [3, 0; 5,1]; % 5 -> 5.1
-        rounds = 7; 
+        matrix = [3, 0; 4.6,1]; % 4.6 -> 4.7
+        rounds = 1000; 
         generations = 1000;
+        rounding = "dec";
     case "Payoff matrix sensitivity after"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
         populationsArray = [100, 300, 244];
-        matrix = [3, 0; 5.1,1]; % 5 -> 5.1
-        rounds = 7; 
+        matrix = [3, 0; 4.7,1]; % 4.6 -> 4.7
+        rounds = 1000; 
         generations = 1000;
+        rounding = "dec";
 
     % Rounding difference
     case "Rounding method sensitivity before"
@@ -164,6 +168,7 @@ switch meeting_mode
         matrix = [3, 0; 5,1];
         rounds = 1000; 
         generations = 1000;
+        rounding = "dec";
     case "Rounding method sensitivity after"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
         populationsArray = [100, 300, 200];
@@ -177,12 +182,14 @@ switch meeting_mode
         matrix = [3, 0; 5,1];
         rounds = 1000; 
         generations = 450;
+        rounding = "pop";
     case "Rounding method sensitivity 2 after"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
         populationsArray = [100/10, 450/10, 1000/10];
         matrix = [3, 0; 5,1];
         rounds = 1000; 
         generations = 160;
+        rounding = "pop";
     otherwise
         error('Invalid meeting mode. Choose a valid option.');
 end
