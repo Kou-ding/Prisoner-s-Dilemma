@@ -9,7 +9,7 @@ The player class encapsulates every attribute and method common to all strategie
 \end{itemize}
 The methods implemented are simple setters and getter that give other classes of our program access to the attributes of the player class.
 
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Socrates, fill the individual strategy descriptions as you see fit
 \subsection{Cooperate Class}
 
@@ -22,19 +22,140 @@ The methods implemented are simple setters and getter that give other classes of
 \subsection{TitForTwoTat Class}
 
 \subsection{Grim Class}
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Axelrod Class}
 The Axelrod class plays out one generation of the game which comprises of a number of rounds. The class is initialized with the following parameters:
 \begin{itemize}
     \item \textbf{players}: A list of players that belong to  play the game.
     \item \textbf{rounds}: The number of rounds the game is played.
-    \item \textbf{currentRound}: A matrix that contains the scores for each player in each round.
-    \item \textbf{payoffMatrix}: 
-  
+    \item \textbf{currentRound}: The current round of the game.
+    \item \textbf{payoffMatrix}: The matrix used to calculate the scores of the players based on their moves.
 \end{itemize}
+The methods of the class include the standard setters and getters but also materializes the main game loop. At first we set the current round and play the round using the \texttt{playRound()} method.
+\begin{}
+% Method to play the tournament
+function obj = begin(obj)
+    for i = 1:obj.rounds
+        % Set the current round
+        obj = obj.setCurrentRound(i);
 
+        % Play the round
+        obj = obj.playRound();
+
+    end
+end
+\end{}
+The \texttt{playRound()} can be seen in detail here. We run two nested loops to effectively simulating all encounters between players. It should be noted that the second loop begins at \texttt{i+1} to avoid enacting the same encounter twice.
+\begin{}
+% Method to play a round
+function obj = playRound(obj)
+    % Simulate all the encounters
+    for i = 1:length(obj.players)-1
+        for j = i+1:length(obj.players)
+            % Encounter the players
+            [obj.players{i}, obj.players{j}] = obj.encounter(obj.players{i}, obj.players{j}, obj.getCurrentRound());
+        end
+    end
+end
+\end{}
+Finally, the \texttt{encounter()} method is responsible for setting the moves of the two players involved, updating their history column which corresponds to the current round (row) and current opponent (column) and updating their current score.  
+\begin{}
+% Method to encounter two players
+function [player1,player2] = encounter(obj, player1, player2, currentRound)
+    % Avoid accessing non-existent history
+    if(currentRound==1 || currentRound<1)
+        % Set the player moves for the first round 
+        player1 = player1.setMove(0, player2.getIndex(), currentRound); % First round
+        player2 = player2.setMove(0, player1.getIndex(), currentRound); % First round
+    else
+        % Set the next player moves utilizing the opponent's history
+        player1 = player1.setMove(player2.getHistoryElement(currentRound-1,player1.getIndex()), player2.getIndex(), currentRound); % Previous round row 
+        player2 = player2.setMove(player1.getHistoryElement(currentRound-1,player2.getIndex()), player1.getIndex(), currentRound); % Opponent's index column
+    end
+    % Update the scores
+    player1 = player1.setScore(obj.getPayoffMatrixElement(player1.move+1, player2.move+1));
+    player2 = player2.setScore(obj.getPayoffMatrixElement(player2.move+1, player1.move+1));
+
+    % Update the history
+    player1 = player1.setHistory(currentRound, player2.getIndex(), player1.getMove());
+    player2 = player2.setHistory(currentRound, player1.getIndex(), player2.getMove());
+end
+\end{}
+
+Now, in order to start the tournament we have to convert the input arguments into actual players. The \texttt{InitPlayers()} method creates a map matching specific numbers with strategy constructors. The distinct populations determine how many times each strategy object should be created and the number of rounds contributes to the number of rows the history matrices should have. 
+\begin{}
+% Method to initialize players
+function obj = InitPlayers(obj, strategiesArray, populationsArray, rounds)
+    % Define function handles for each player type
+    playerConstructors = containers.Map(...
+        {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17}, ... % Strategy numbers
+        {@random, @cooperate, @defect, @grim, @tit_for_tat, @hard_tft, @slow_tft, @tf2t, @soft_majo, @per_cd, @per_kind, @per_nasty, @gradual, @pavlov, @mistrust, @per_ccccd, @prober} ... % Corresponding constructors
+    );
+
+    % Calculate the total number of players
+    totalPlayers = sum(populationsArray, "all");
+
+    % Preallocate the players array as a cell array
+    obj.players = cell(1, totalPlayers);
+
+    % Create players based on strategiesArray and populationsArray
+    playerIndex = 1; % Track the current position in the players array
+    for strategy = 1:length(strategiesArray)
+        % Get the current strategy number
+        strategyNumber = strategiesArray(strategy);
+        
+        % Get the population for the current strategy
+        population = populationsArray(strategy);
+        
+        % Check if the strategy is valid
+        if playerConstructors.isKey(strategyNumber)
+            % Create 'population' number of players for the current strategy
+            for i = 1:population
+                % Dynamically call the constructor for the current strategy
+                constructorHandle = playerConstructors(strategyNumber); % Get the function handle
+                obj.players{playerIndex} = constructorHandle(totalPlayers); % Call the constructor to create a player object
+                playerIndex = playerIndex + 1; % Move to the next position in the players array
+            end
+        else
+            error('Invalid strategy number: %d', strategyNumber);
+        end
+    end
+
+    % Set the index and history matrix for each player
+    for i = 1:length(obj.players)
+        obj.players{i}.index = i;
+        obj.players{i} = obj.players{i}.initHistory(rounds, length(obj.players));
+    end
+end
+\end{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Socrates, fill the genaxel class using greg's code comments
 \section{Genaxel Class}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Script}
+The Script is our means to configure the program and the different kinds of tournaments we engineered. Through the script one can edit the following paramenters:
+\begin{itemize}
+    \item \textbf{sim_mode}: The simulation mode. Can take one of 4 values:
+        \begin{itemize}
+            \item \texttt{Axel}: Axelrod, is a simple Axelrod tournament.
+            \item \texttt{TourTheFit}: Tournament Theoretical Fitness, is a genetic algorithm implementing the Axelrod tournament for many generations. The mechanism for determining the next generation includes finding the ratio of the total score each strategy accumulated and distributing the total number of players to the individual strategies based on that ratio. The encounters here are only theoretical. We save on computation time by encountering the strategies and multiplying by their populations. 
+            \item \texttt{TourSimFit}: Tournament Simulated Fitness, is a genetic algorithm implementing the Axelrod tournament for many generations. This algorithm's mechanism is the same as TourTheFit but this time the players have to be distinct and truly encounter one another. More computationally expensive but also able to accurately simulate random strategies.
+            \item \texttt{TourSimImit}: Tournament Simulated Imitation, genetic algorithm implementing the Axelrod tournament for many generations. The mechanism for determining the next generation has the suboptimal players converting to the best performing strategy.
+        \end{itemize}
+    \item \textbf{meeting_mode}: Meeting mode, lets the user choose from a number of different meetings created as experiments by the authors of "" to highlight various interesting emerging states.
+\end{itemize}
+
+The user is also able to run custom tournaments by selecting the custom meeting mode and thereafter changing any of the following parameters:
+\begin{itemize}
+    \item \textbf{strategies}: The strategies participating in the tournament. 
+    \item \textbf{populations}: The populations of each strategy.
+    \item \textbf{payoffMatrix}: The matrix that determines the scores of the players.
+    \item \textbf{rounds}: The number of rounds to be played each generation of the tournament.
+    \item \textbf{generations}: The number of generations to be played in the tournament.
+    \item \textbf{rounding}: The rounding method used to have integer populations each generations while, also, keeping the initial total population.
+    \item \textbf{K}: The number of players that will imitate the best performing strategy.
+\end{itemize}
+Running the script.m file runs the tournament with the parameters set inside it. The results are plotted for visualization.

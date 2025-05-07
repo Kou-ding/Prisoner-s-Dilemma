@@ -161,7 +161,7 @@ switch meeting_mode
         generations = 1000;
         rounding = "dec";
 
-    % Rounding difference
+    % Rounding difference 🗸
     case "Rounding method sensitivity before"
         strategiesArray = [9, 11, 12]; % soft_majo, per_ccd, per_ddc
         populationsArray = [100, 300, 200];
