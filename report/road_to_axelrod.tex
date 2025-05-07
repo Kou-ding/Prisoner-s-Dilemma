@@ -1,6 +1,16 @@
 % Description of Axelrod code
 \section{Player Class}
+The player class encapsulates every attribute and method common to all strategies. The differentiation occurs in the subclasses where we sometimes need to add attributes and/or methods. The move() method is implemented on each individual subclass/strategy. The common player attributes are:
+\begin{itemize}
+    \item \textbf{index}: The index of the player in the game.
+    \item \textbf{score}: The score of the player.
+    \item \textbf{history}: A list of the player's moves for each round played (rows) when matched with different other players (columns) in the game.
+    \item \textbf{move}: The move of the player in the current round. Can either be \texttt{0} (cooperate) or \texttt{1} (defect).
+\end{itemize}
+The methods implemented are simple setters and getter that give other classes of our program access to the attributes of the player class.
 
+
+% Socrates, fill the individual strategy descriptions as you see fit
 \subsection{Cooperate Class}
 
 \subsection{Defect Class}
@@ -15,7 +25,16 @@
 
 
 \section{Axelrod Class}
+The Axelrod class plays out one generation of the game which comprises of a number of rounds. The class is initialized with the following parameters:
+\begin{itemize}
+    \item \textbf{players}: A list of players that belong to  play the game.
+    \item \textbf{rounds}: The number of rounds the game is played.
+    \item \textbf{currentRound}: A matrix that contains the scores for each player in each round.
+    \item \textbf{payoffMatrix}: 
+  
+\end{itemize}
 
+% Socrates, fill the genaxel class using greg's code comments
 \section{Genaxel Class}
 
-\section{Main function}
+\section{Script}
