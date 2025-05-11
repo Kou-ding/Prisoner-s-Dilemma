@@ -1,8 +1,3 @@
-addpath('strategies');
-
-% Tweak the program's basic parameters via the script.m file
-script;
-
 function Axel(strategiesArray, populationsArray, matrix, rounds)
 
     % Create an axelrod tournament
@@ -23,4 +18,3 @@ function Axel(strategiesArray, populationsArray, matrix, rounds)
     tournament.printResults(strategiesArray, populationsArray);
 end
 
-Axel(strategiesArray, populationsArray, matrix, rounds);
