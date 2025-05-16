@@ -30,6 +30,7 @@ EvolutionaryGamesToolbox
 │        variables. 
 └── Report
     └── The latex code which forms our report and a pdf copy of our the end result.
+        To gain further insight on the project make sure to read its contents.
 ```
 
 ## Time Schedule
