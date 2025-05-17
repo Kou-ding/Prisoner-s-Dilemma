@@ -1,5 +1,6 @@
 classdef  genaxel
     properties
+        static_totalplayers = 0; % Total number of players in the population
                
     end
         % function TourTheFit wher b is the payoff matrix of row player
@@ -64,6 +65,12 @@ classdef  genaxel
             % Wn(length(strategies)-2) = Wn(length(strategies)-2) + 1;
 
             %%%%%%%% DECIMAL REDISTRIBUTION %%%%%%%%%%%%%
+            if rounding == "paper"
+                for i = 1:length(strategies)
+                    Wn(i) = obj.static_totalplayers * Gn(i)*Wn(i) / Tn;
+                    Wn(i) = floor(Wn(i));
+                end
+            end
             if rounding == "pop"
                 remainder = zeros(1, length(strategies));
 
@@ -115,10 +122,11 @@ classdef  genaxel
             popHistory = zeros(J,length(strategies));   
             Wn = pop0; % Wn is the population of generation n
             %we will implement a axelrod tournament for two strategies of population 1 each time
+            obj.static_totalplayers = sum(Wn); % Total number of players in the population
             for i = 1:J
                 popHistory(i,:) = Wn; % Store the population of generation i 
-                [obj,Wn]  = TourTheFit(obj, b , strategies , Wn , T , 1, rounding);
                 
+                [obj,Wn]  = TourTheFit(obj, b , strategies , Wn , T , 1, rounding);
             end
             
  
