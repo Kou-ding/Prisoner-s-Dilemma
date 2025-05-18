@@ -14,25 +14,6 @@ move; % Player's move
 ## Strategies
 Individual Strategies are child classes of the parent class Player. They implement a, unique to each strategy, **move()** function and sometimes have additional attributes that enable the way they calculate the move. They are explained in detail inside the *Documentation/strategies/* directory.
 
-### hard_tft Class
-```matlab
-
-```
-#### Attributes
-None
-#### Methods
-- Constructor
-    ```matlab
-
-    ```
-    Creates a  player.
-
-- Move
-    ```matlab
-    function obj = setMove(obj, ~, ~, ~)
-    ```
-    Cooperates on the first two moves, defects after at least one defection in the last two rounds,
-cooperates otherwise.
 
 ### slow_tft Class
 ```matlab
@@ -167,25 +148,6 @@ None
     ```
     Periodically plays defect, defect, cooperate.
 
-### Gradual Class
-```matlab
-
-```
-#### Attributes
-None
-#### Methods
-- Constructor
-    ```matlab
-
-    ```
-    Creates a  player.
-
-- Move
-    ```matlab
-    function obj = setMove(obj, ~, ~, ~)
-    ```
-    Cooperates on the first move, then defects n times after nth defections
-    and calms down its opponent with two cooperations.
 
 ### soft_majo Class
 ```matlab
