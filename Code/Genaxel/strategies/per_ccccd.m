@@ -2,7 +2,7 @@
 classdef per_ccccd < player
 
     properties
-        state = []; % 0: start or after D, 1: after C
+        state = []; % per-opponent array of the player's current state number
     end
 
     methods

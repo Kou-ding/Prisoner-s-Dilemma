@@ -2,7 +2,7 @@
 classdef per_cd < player
 
     properties
-        state = []; % 0: start or after D, 1: after C
+        state = []; % States: 0 -> at start or after D, 1 -> after C
     end
 
     methods

@@ -3,7 +3,7 @@
 classdef tf2t < player
 
     properties
-        opponentlasttwo = [];
+        opponentlasttwo = []; % Store the last two moves of the opponent
     end
 
     methods

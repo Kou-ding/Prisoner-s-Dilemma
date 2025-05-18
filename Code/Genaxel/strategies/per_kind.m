@@ -2,7 +2,7 @@
 classdef per_kind < player
   
     properties
-      state = []; % 0: fresh start, 1: first C, 2: second C, 3: First D
+      state = []; % States: 1 -> C, 2 -> C, 3 -> D
     end 
   
   methods 

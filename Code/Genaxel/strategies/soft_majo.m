@@ -3,7 +3,7 @@
 classdef soft_majo < player
 
     properties
-        opponentsMovecount = [];
+        opponentsMovecount = []; % Per opponent, number of coops and defects
     end
 
     methods
