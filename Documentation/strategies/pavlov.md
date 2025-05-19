@@ -21,7 +21,7 @@ previousMove = []; % Store the previous move of the player
     ```matlab
     function obj = setMove(obj, opponentLastMove, opponentIndex, currentRound)
     ```
-    '@ obj': The player object.
+    `@ obj`: The player object.
 
     `@ opponentLastMove`: The opponent's last move.
 

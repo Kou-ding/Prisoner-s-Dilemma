@@ -21,7 +21,7 @@ opponentHasDefected = []; % Flag that indicates if the opponent has defected
     ```matlab
     function obj = setMove(obj, opponentLastMove, opponentIndex, currentRound)
     ```
-    '@ obj': The player object.
+    `@ obj`: The player object.
 
     `@ opponentLastMove`: The opponent's last move.
 

@@ -21,7 +21,7 @@ state = []; % per-opponent array of the player's current state number
     ```matlab
     function obj = setMove(obj, ~, opponentIndex, ~)
     ```
-    '@ obj': The player object.
+    `@ obj`: The player object.
 
     `@ opponentLastMove`: The opponent's last move. (Not utilized here)
 

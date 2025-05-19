@@ -21,7 +21,7 @@ opponentlasttwo = []; % Store the last two moves of the opponent
     ```matlab
     function obj = setMove(obj, opponentLastMove, opponentIndex, currentRound)
     ```
-    '@ obj': The player object.
+    `@ obj`: The player object.
 
     `@ opponentLastMove`: The opponent's last move.
 

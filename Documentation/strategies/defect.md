@@ -19,7 +19,7 @@ None
     ```matlab
     function obj = setMove(obj, ~, ~, ~)
     ```
-    '@ obj': The player object.
+    `@ obj`: The player object.
 
     `@ opponentLastMove`: The opponent's last move. (Not utilized here)
 
