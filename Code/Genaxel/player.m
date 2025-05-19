@@ -37,8 +37,8 @@ classdef player
             history = obj.history;
         end
         % Method to get the history
-        function history = getHistoryElement(obj, round, opponentIndex)
-            history = obj.history(round, opponentIndex);
+        function historyElement = getHistoryElement(obj, round, opponentIndex)
+            historyElement = obj.history(round, opponentIndex);
         end
         % Method to set the index
         function obj = setIndex(obj, index)
