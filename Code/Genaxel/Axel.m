@@ -22,6 +22,6 @@ function Axel(strategiesArray, populationsArray, matrix, rounds)
     % Display the results
     disp('Tournament results:');
     disp('-------------------');
-    tournament.printResults(strategiesArray, populationsArray);
+    tournament.plotResults(strategiesArray, populationsArray);
 end
 
