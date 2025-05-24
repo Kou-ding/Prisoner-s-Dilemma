@@ -264,7 +264,7 @@ function gui
             set(payoffTable, 'Enable', 'off');
             set(roundsBox, 'Enable', 'off');
             set(gensBox, 'Enable', 'off');
-            set(roundingMenu, 'Enable', 'off');
+            set(roundingMenu, 'Enable', 'on');
             set(kBox, 'Enable', 'off');
 
             % Clear strategy list box, or indicate the selected figure meeting
@@ -276,8 +276,13 @@ function gui
         addpath('Code/Genaxel/strategies');
         addpath('Code/Genaxel');
 
+        simModes = get(simModeMenu, 'String');
+        sim_mode = simModes{get(simModeMenu, 'Value')};
+
+        K = str2double(get(kBox, 'String'));
+
         if strcmp(selectedMeeting, 'None')
-            % Custom meeting from GUI
+            % Custom setup
             if isempty(strategyIDs)
                 errordlg('Please add at least one strategy.');
                 return;
@@ -287,48 +292,34 @@ function gui
             matrix = get(payoffTable, 'Data');
             rounds = str2double(get(roundsBox, 'String'));
             generations = str2double(get(gensBox, 'String'));
-            simModes = get(simModeMenu, 'String');
-            sim_mode = simModes{get(simModeMenu, 'Value')};
-            roundingOptions = get(roundingMenu, 'String');
-            rounding = roundingOptions{get(roundingMenu, 'Value')};
-            K = str2double(get(kBox, 'String'));
         else
-            % Load selected meeting file and override parameters
+            % Load from figure meeting file
             try
-                % Extract filename without extension
                 [~, fName] = fileparts(selectedMeeting);
-                % Assume these files are in folder 'Example' or current path
-                run(fullfile('Examples', fName)); % or just run(fName);
-
-                % After running, expect variables defined:
-                % strategiesArray, populationsArray, matrix, rounds, generations, rounding, K
-                % Provide defaults if missing
-                if ~exist('rounding', 'var')
-                    rounding = "paper";
-                end
-                if ~exist('K', 'var')
-                    K = 5;
-                end
-                simModes = get(simModeMenu, 'String');
-                sim_mode = simModes{get(simModeMenu, 'Value')};
+                run(fullfile('Examples', fName)); % defines strategiesArray, populationsArray, matrix, rounds, generations
             catch ME
                 errordlg(['Error loading meeting file: ' ME.message]);
                 return;
             end
         end
 
-        % Run the chosen simulation mode
+        % Always override with GUI's rounding selection
+        roundingOptions = get(roundingMenu, 'String');
+        rounding = roundingOptions{get(roundingMenu, 'Value')};
+
+        % Run the simulation
         switch sim_mode
             case "TourTheFit"
                 TourTheFit(matrix, strategiesArray, populationsArray, rounds, generations, rounding);
             case "TourSimImit"
                 TourSimImit(matrix, strategiesArray, populationsArray, K, rounds, generations);
             case "TourSimFit"
-                TourSimFit(matrix, strategiesArray, populationsArray, rounds, generations);
+                TourSimFit(matrix, strategiesArray, populationsArray, rounds, generations, rounding);
             case "Axel"
                 Axel(strategiesArray, populationsArray, matrix, rounds);
             otherwise
                 errordlg('Invalid simulation mode.');
         end
     end
+
 end
