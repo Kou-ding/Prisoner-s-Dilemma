@@ -6,7 +6,7 @@ function gui
     f = figure(...
         'Name', 'Genaxel Simulation GUI', ...
         'Position', [300 100 figWidth figHeight], ...
-        'Resize', 'on', ... % This makes it non-resizable
+        'Resize', 'on', ... % This makes it resizable
         'MenuBar', 'none', ... % Remove default menu bar
         'NumberTitle', 'off'); % Remove "Figure 1" title
 
@@ -38,6 +38,27 @@ function gui
         'String', {'TourTheFit', 'TourSimImit', 'TourSimFit', 'Axel'}, ...
         'Position', [20 110 200 20], ...
         'Callback', @toggleFields);
+
+    % --- New dropdown below simModeMenu ---
+    uicontrol(f, ...
+        'Style', 'text', ...
+        'String', 'Run specific meeting:', ...
+        'Position', [5 80 150 20]);
+
+    % Dynamically find all meeting files in "Example/" folder
+    exampleDir = 'Examples';
+    if ~isfolder(exampleDir)
+        mkdir(exampleDir); % Create if doesn't exist
+    end
+    meetingFiles = dir(fullfile(exampleDir, 'figure*.m'));
+    meetingNames = sort({meetingFiles.name}); % Alphabetical sort
+    figureFiles = ['None', meetingNames];
+
+    meetingMenu = uicontrol(f, ...
+        'Style', 'popupmenu', ...
+        'String', figureFiles, ...
+        'Position', [20 55 200 20], ...
+        'Callback', @meetingSelected);
 
     %%% --- Right side --- %%%
     %%% --- Strategy adding --- %%%
@@ -149,7 +170,15 @@ function gui
     strategyIDs = [];
     populationSizes = [];
 
+    % Flag whether a figure is selected for meeting
+    selectedMeeting = 'None';
+
     function addStrategy(~, ~)
+        % Only allow adding strategies if no meeting is selected
+        if ~strcmp(selectedMeeting, 'None')
+            errordlg('Cannot add strategies while a specific meeting is selected. Choose "None" to customize.');
+            return;
+        end
         idx = get(strategyMenu, 'Value');
         pop = str2double(get(popInput, 'String'));
         if isnan(pop) || pop <= 0
@@ -162,6 +191,10 @@ function gui
     end
 
     function deleteStrategy(~, ~)
+        if ~strcmp(selectedMeeting, 'None')
+            errordlg('Cannot delete strategies while a specific meeting is selected. Choose "None" to customize.');
+            return;
+        end
         selected = get(stratListBox, 'Value');
         strategyIDs(selected) = [];
         populationSizes(selected) = [];
@@ -169,9 +202,13 @@ function gui
     end
 
     function updateListbox()
-        entries = arrayfun(@(s, p) sprintf('%s -> %d', strategyList{s}, p), ...
-            strategyIDs, populationSizes, 'UniformOutput', false);
-        set(stratListBox, 'String', entries, 'Value', 1);
+        if isempty(strategyIDs)
+            set(stratListBox, 'String', {});
+        else
+            entries = arrayfun(@(s, p) sprintf('%s -> %d', strategyList{s}, p), ...
+                strategyIDs, populationSizes, 'UniformOutput', false);
+            set(stratListBox, 'String', entries, 'Value', 1);
+        end
     end
 
     function toggleFields(~, ~)
@@ -200,26 +237,87 @@ function gui
         end
     end
 
-    function runSim(~, ~)
-        if isempty(strategyIDs)
-            errordlg('Please add at least one strategy.');
-            return;
-        end
+    function meetingSelected(src, ~)
+        val = get(src, 'Value');
+        selectedMeeting = figureFiles{val};
+        if strcmp(selectedMeeting, 'None')
+            % Enable strategy adding controls
+            set(strategyMenu, 'Enable', 'on');
+            set(popInput, 'Enable', 'on');
+            set(addBtn, 'Enable', 'on');
+            set(deleteBtn, 'Enable', 'on');
+            % Reset listbox to show current strategies
+            updateListbox();
+            % Also enable payoff, rounds, generations editing
+            set(payoffTable, 'Enable', 'on');
+            set(roundsBox, 'Enable', 'on');
+            set(gensBox, 'Enable', 'on');
+            set(roundingMenu, 'Enable', 'on');
+            set(kBox, 'Enable', 'on');
+        else
+            % Disable strategy adding controls
+            set(strategyMenu, 'Enable', 'off');
+            set(popInput, 'Enable', 'off');
+            set(addBtn, 'Enable', 'off');
+            set(deleteBtn, 'Enable', 'off');
+            % Disable payoff, rounds, generations editing to avoid conflicts
+            set(payoffTable, 'Enable', 'off');
+            set(roundsBox, 'Enable', 'off');
+            set(gensBox, 'Enable', 'off');
+            set(roundingMenu, 'Enable', 'off');
+            set(kBox, 'Enable', 'off');
 
+            % Clear strategy list box, or indicate the selected figure meeting
+            set(stratListBox, 'String', {['Using meeting: ' selectedMeeting]}, 'Value', 1);
+        end
+    end
+
+    function runSim(~, ~)
         addpath('Code/Genaxel/strategies');
         addpath('Code/Genaxel');
 
-        strategiesArray = strategyIDs;
-        populationsArray = populationSizes;
-        matrix = get(payoffTable, 'Data');
-        rounds = str2double(get(roundsBox, 'String'));
-        generations = str2double(get(gensBox, 'String'));
-        simModes = get(simModeMenu, 'String');
-        sim_mode = simModes{get(simModeMenu, 'Value')};
-        roundingOptions = get(roundingMenu, 'String');
-        rounding = roundingOptions{get(roundingMenu, 'Value')};
-        K = str2double(get(kBox, 'String'));
+        if strcmp(selectedMeeting, 'None')
+            % Custom meeting from GUI
+            if isempty(strategyIDs)
+                errordlg('Please add at least one strategy.');
+                return;
+            end
+            strategiesArray = strategyIDs;
+            populationsArray = populationSizes;
+            matrix = get(payoffTable, 'Data');
+            rounds = str2double(get(roundsBox, 'String'));
+            generations = str2double(get(gensBox, 'String'));
+            simModes = get(simModeMenu, 'String');
+            sim_mode = simModes{get(simModeMenu, 'Value')};
+            roundingOptions = get(roundingMenu, 'String');
+            rounding = roundingOptions{get(roundingMenu, 'Value')};
+            K = str2double(get(kBox, 'String'));
+        else
+            % Load selected meeting file and override parameters
+            try
+                % Extract filename without extension
+                [~, fName] = fileparts(selectedMeeting);
+                % Assume these files are in folder 'Example' or current path
+                run(fullfile('Examples', fName)); % or just run(fName);
 
+                % After running, expect variables defined:
+                % strategiesArray, populationsArray, matrix, rounds, generations, rounding, K
+                % Provide defaults if missing
+                if ~exist('rounding', 'var')
+                    rounding = "paper";
+                end
+                if ~exist('K', 'var')
+                    K = 5;
+                end
+                simModes = get(simModeMenu, 'String');
+                sim_mode = simModes{get(simModeMenu, 'Value')};
+            catch ME
+                errordlg(['Error loading meeting file: ' ME.message]);
+                return;
+            end
+        end
+
+        % Run the chosen simulation mode
         switch sim_mode
             case "TourTheFit"
                 TourTheFit(matrix, strategiesArray, populationsArray, rounds, generations, rounding);
