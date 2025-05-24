@@ -1,5 +1,12 @@
 function Axel(strategiesArray, populationsArray, matrix, rounds)
-
+    % Axel runs an Axelrod tournament simulation.
+    %
+    % Inputs:
+    %   strategiesArray   - Cell array or vector specifying the strategy names or types for each player.
+    %   populationsArray  - Array specifying the number of players for each corresponding strategy.
+    %   matrix            - 2D array (payoff matrix) defining the rewards for each possible outcome.
+    %   rounds            - Integer specifying how many rounds each match in the tournament should last.
+    
     % Create an axelrod tournament
     tournament = axelrod();
 
