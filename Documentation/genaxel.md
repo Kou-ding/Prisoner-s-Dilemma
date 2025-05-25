@@ -13,4 +13,6 @@ function TourTheFit(matrix, strategiesArray, populationsArray, rounds, generatio
 
 `@ rounding`: The rounding method used in the Tournament.
 
-The Theoretical Fitness tournament
+# Comment
+Conducts a round-robin tournament between all strategies to calculate the payoff matrix, V. These results are then used to compute fitness-based population updates for the next generation, using the Mathieu's formula.
+The total number of players for the next generation is redistributed across strategies proportionally to their performance scores. Each strategy's score is calculated based on its success against others, weighted by their population. The total score across all strategies is used to normalize these values.A rounding method finalizes the allocation.
