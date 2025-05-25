@@ -27,8 +27,7 @@ classdef  genaxel
             στρατηγικη ανα μεταξυ της και ετσι εχουμε τον πινακα V. Χρησιμοποιωντας τη φορμουλα του 
             Mathieu ενημερωνουμε τους πλυθησμους της γενιας n + 1.
         %}
-
-        function [obj,Wn,V] = TourTheFit(obj, b , strategies , pop0 , T , J , rounding)
+        function [obj,Wn,V] = TheoreticalFitness(obj, b , strategies , pop0 , T , rounding)
             % V stores the strategies interactions with one another
             V = zeros(length(strategies),length(strategies));
             Wn = pop0; % Wn is the population of generation n
@@ -110,37 +109,7 @@ classdef  genaxel
             end
         end
         
-        
-        %{  
-        function callTourTheFit(obj, b , strategies , pop0 , T , J ) 
-        παιρνουμε ενα πινακα με τον πλυθησμους σε καθε γενια τον οποιο τον φτιαχνουμε καλωντας 
-        επανειλημενα την συνάρτηση TourTheFit ανακυκλωνοντας τον πλυθησμο της προηγουμενης γενιας.
-        Στο τελος καλουμε την συνάρτηση plotgen για να δουμε την εξελιξη του πλυθησμου καθε στρατηγικης.      παιρνουμε ενα πινακα με τον πλυθησμους σε καθε γενια τον οποιο τον φτιαχνουμε καλωντας 
-                   
-        %}
-        function obj = callTourTheFit(obj, b , strategies , pop0 , T , J, rounding )
-            popHistory = zeros(J,length(strategies));   
-            Wn = pop0; % Wn is the population of generation n
-            %we will implement a axelrod tournament for two strategies of population 1 each time
-            obj.static_totalplayers = sum(Wn); % Total number of players in the population
-            for i = 1:J
-                popHistory(i,:) = Wn; % Store the population of generation i 
-                
-                [obj,Wn]  = TourTheFit(obj, b , strategies , Wn , T , 1, rounding);
-            end
-            
- 
-            %{
-            for i = 1:J
-                disp(popHistory(i,:));
-                disp(V)
-            end
-            %} 
-            plotgen(obj, J , popHistory , strategies);   
-                                                                           
-        end
-       
-        function [obj,Wn] = TourSimFit(obj, b , strategies , pop0 , T , J )
+        function [obj,Wn] = SimFitness(obj, b , strategies , pop0 , T )
             tournament = axelrod(); % Create an axelrod tournament  
             tournament = tournament.InitPlayers(strategies,pop0,T); % Initialize players
             tournament = tournament.initAxel(tournament.players,b,T); % Initialize the tournament with players and payoff matrix
@@ -165,19 +134,7 @@ classdef  genaxel
             end
         end
 
-        function obj = callTourSimFit(obj, b , strategies , pop0 , T , J)
-            popHistory = zeros(J,length(strategies));   
-            Wn = pop0; % Wn is the population of generation n
-            %we will implement a axelrod tournament for two strategies of population 1 each time
-            for i = 1:J 
-                popHistory(i,:) = Wn; % Store the population of generation i
-                [obj,Wn]  = TourSimFit(obj, b , strategies , Wn , T , 1 );
-                  
-            end
-            plotgen(obj, J , popHistory , strategies); % Call the plotgen function to plot the results 
-        end            
-        
-        function [obj,Wn] = TourSimImi(obj, b , strategies , pop0 , K , T , J)
+        function [obj,Wn] = ImitationSim(obj, b , strategies , pop0 , K , T )
             V = zeros(length(strategies),length(strategies));
             Wn = pop0; % Wn is the population of generation n  
             oneVone = ones(1,2);
@@ -242,19 +199,7 @@ classdef  genaxel
             end  
         end
 
-
-        function [obj,Wn] = callTourSimImi(obj, b , strategies , pop0 , K , T , J)
-            popHistory = zeros(J,length(strategies));   
-            Wn = pop0; % Wn is the population of generation n
-            %we will implement a axelrod tournament for two strategies of population 1 each time
-            for i = 1:J
-                popHistory(i,:) = Wn; % Store the population of generation i
-                [obj,Wn]  = TourSimImi(obj, b , strategies , Wn , K , T , 1 );
-                  
-            end
-            plotgen(obj, J , popHistory , strategies); % Call the plotgen function to plot the results
-        end
-            
+        % Generates a plot of the population evolution for each strategy
         function obj = plotgen( obj , generations , popHistory , strategies)
             numofgenerations = generations;
             strategiesArray = strategies;

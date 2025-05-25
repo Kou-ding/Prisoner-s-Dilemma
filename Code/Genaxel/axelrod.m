@@ -184,5 +184,42 @@ classdef axelrod
                 fprintf('%s : %d points\n', playerStrategies(strategiesArray(m)), totalScore(m));
             end
         end
+        % Plots the tournament results as a bar chart
+        function plotResults(obj, strategiesArray, populationsArray)
+            % Map strategy numbers to names
+            playerStrategies = containers.Map(...
+                {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17}, ...
+                {'Random', 'Cooperate', 'Defect', 'Grim', 'Tit for Tat', 'Hard Tit for Tat', 'Slow Tit for Tat', 'Tit for two Tat', ...
+                'Soft Majority', 'Periodic Cooperate Defect', 'Periodic Kind', 'Periodic Nasty', 'Gradual', 'Pavlov', 'Mistrust','Periodic Ultra Kind', 'Prober'} ...
+            );
+
+            totalScore = zeros(1, length(strategiesArray));
+            strategyNames = cell(1, length(strategiesArray));
+            counter = 1;
+            
+            for m = 1:length(strategiesArray)
+                for j = 1:populationsArray(m)
+                    totalScore(m) = totalScore(m) + obj.players{counter}.getScore();
+                    counter = counter + 1;
+                end
+                strategyNames{m} = playerStrategies(strategiesArray(m));
+                fprintf('%s : %d points\n', strategyNames{m}, totalScore(m));
+            end
+
+            % Plot bar chart
+            figure;
+            hold on;
+            cmap = lines(length(totalScore)); % Generate distinguishable colors
+            for i = 1:length(totalScore)
+                bar(i, totalScore(i), 'FaceColor', cmap(i, :));
+            end
+            hold off;
+
+            set(gca, 'XTick', 1:length(strategyNames), 'XTickLabel', strategyNames);
+            xtickangle(45);
+            ylabel('Total Score');
+            title('Tournament Results by Strategy');
+            grid on;
+        end
     end
 end
