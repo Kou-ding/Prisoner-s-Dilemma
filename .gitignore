@@ -1,0 +1,2 @@
+# Ignore the _minted directory created by Pygments
+Report/_minted
