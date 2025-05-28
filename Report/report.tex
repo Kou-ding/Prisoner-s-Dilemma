@@ -15,6 +15,7 @@
 \usepackage{minted}
 \usepackage{rotating}
 \usepackage{hyperref}
+\usepackage[T1]{fontenc}
 
 
 \geometry{margin=1in}
@@ -899,11 +900,11 @@ For the k-step transition matrix $M^k$, for $k$ big, we see that all states end 
 \section{Simulation calculated state transition matrices}
 
 
-We simulated in MATLAB the evolutionary imitation dynamics. In order to be able to also simulate zero determinant strategies, at the lowest level, in function $\mintinline{matlab}{randomplay()}$, for each strategy in a game described by its strategy vector $\mathbf{p}$, we construct a $4\times rounds$ matrix, where each row is a random vector of 'round' elements, '0's for 'C' and '1's for 'D', where 'C' is present in each vector with a probability $p(C|CC),\ \ p(C|CD),\ \ p(C|DC)$ and $p(C|DD)$, respectively. There are 'rounds' rounds in a match between two players. During a match between two players, depending on the outcome of the system's previous state $(CC,\ \ CD,\ \ DC,$ or $DD)$ a player can choose his response in the current round, by using an element  of the appropriate row of this premade matrix. We can guarantee (up to rounding errors) that the desired probabilities are exact when considering all the elements of the row and approximately exact when less elements of the row are used in a match. By simulation, we have seen that this strategy with the premade choices works slightly better than using a random generator each time at the level of a round in a match, in order to produce 'C' or 'D' with a specified probability. MATLAB's function $\mintinline{matlab}{randperm()}$ for random permutations of integers was used to create the premade choice matrices. For deterministic strategies like All-C, All-D, Pavlov, Tit-for-Tat which have only '0's or '1's in their strategy vectors $\mathbf{p}$, the results obtained are exact (up to rounding errors).
+We simulated in MATLAB the evolutionary imitation dynamics. In order to be able to also simulate zero determinant strategies, at the lowest level, in function \mintinline{matlab}{randomplay()}, for each strategy in a game described by its strategy vector $\mathbf{p}$, we construct a $4\times rounds$ matrix, where each row is a random vector of 'round' elements, '0's for 'C' and '1's for 'D', where 'C' is present in each vector with a probability $p(C|CC),\ \ p(C|CD),\ \ p(C|DC)$ and $p(C|DD)$, respectively. There are 'rounds' rounds in a match between two players. During a match between two players, depending on the outcome of the system's previous state $(CC,\ \ CD,\ \ DC,$ or $DD)$ a player can choose his response in the current round, by using an element  of the appropriate row of this premade matrix. We can guarantee (up to rounding errors) that the desired probabilities are exact when considering all the elements of the row and approximately exact when less elements of the row are used in a match. By simulation, we have seen that this strategy with the premade choices works slightly better than using a random generator each time at the level of a round in a match, in order to produce 'C' or 'D' with a specified probability. MATLAB's function \mintinline{matlab}{randperm()} for random permutations of integers was used to create the premade choice matrices. For deterministic strategies like All-C, All-D, Pavlov, Tit-for-Tat which have only '0's or '1's in their strategy vectors $\mathbf{p}$, the results obtained are exact (up to rounding errors).
 \\\\
-The function $\mintinline{matlab}{playmatch()}$ is used to simulate a match of 'rounds' rounds between two players, following strategies with vectors $\mathbf{p}$ and $\mathbf{q}$, respectively, and with their respective premade choice matrices. For zero determinant strategies, the first move of the player is randomly chosen between 'C' or 'D' with probability 0.5 for each. This function also calculates the score of each player in a match, based on the game playoff matrix. The premade choice matrices are randomly recalculated for each match between two players.
+The function \mintinline{matlab}{playmatch()} is used to simulate a match of 'rounds' rounds between two players, following strategies with vectors $\mathbf{p}$ and $\mathbf{q}$, respectively, and with their respective premade choice matrices. For zero determinant strategies, the first move of the player is randomly chosen between 'C' or 'D' with probability 0.5 for each. This function also calculates the score of each player in a match, based on the game playoff matrix. The premade choice matrices are randomly recalculated for each match between two players.
 \\\\
-The function $\mintinline{matlab}{gentournament()}$ realizes  a meeting between three strategies (a generation in evolutionary terms), where all matches between all possible pairs of players are played. For the number of matches between players belonging to two strategies, see the matrix in the beginning of the previous section. By summing, it can be easily seen that there are $\frac{N(N-1)}{2}$ matches in a meeting, N being the total constant population. After a match is finished, the total score of each strategy is updated according to the outcome of the match, also in function $\mintinline{matlab}{gentournament()}$. Finally, the same function, given the current state and the meeting scores for each one of the three strategies, calls the function $\mintinline{matlab}{nxt()}$, which calculates the next state of the system. After a meeting, one player is chosen randomly from the strategies with a non zero number of players and chooses, by imitation, to follow one of the strategies that scored the most in the meeting. The details of changing strategy for one player after a meeting, were described in the previous section and are realized in $\mintinline{matlab}{nxt()}$. Either a player moves from a strategy to another one (realized by the function $\mintinline{matlab}{transferfromXtoY()}$ in $\mintinline{matlab}{nxt()}$), or we remain in the same state (realized by $\mintinline{matlab}{remaintosamestate()}$).
+The function \mintinline{matlab}{gentournament()} realizes  a meeting between three strategies (a generation in evolutionary terms), where all matches between all possible pairs of players are played. For the number of matches between players belonging to two strategies, see the matrix in the beginning of the previous section. By summing, it can be easily seen that there are $\frac{N(N-1)}{2}$ matches in a meeting, N being the total constant population. After a match is finished, the total score of each strategy is updated according to the outcome of the match, also in function \mintinline{matlab}{gentournament()}. Finally, the same function, given the current state and the meeting scores for each one of the three strategies, calls the function \mintinline{matlab}{nxt()}, which calculates the next state of the system. After a meeting, one player is chosen randomly from the strategies with a non zero number of players and chooses, by imitation, to follow one of the strategies that scored the most in the meeting. The details of changing strategy for one player after a meeting, were described in the previous section and are realized in \mintinline{matlab}{nxt()}. Either a player moves from a strategy to another one (realized by the function \mintinline{matlab}{transferfromXtoY()} in \mintinline{matlab}{nxt()}), or we remain in the same state (realized by \mintinline{matlab}{remaintosamestate()}).
 \begin{lstlisting}[caption= Abstract example from nxt.m: Three strategies with non-zero populations and the same pay-offs]
     
     if sortedS(1) > sortedS(2) && sortedS(2) > sortedS(3)
@@ -913,11 +914,11 @@ The function $\mintinline{matlab}{gentournament()}$ realizes  a meeting between 
         nextstate = transferfromXtoY(3, 1, n, idx);
 
 \end{lstlisting}
-In both these functions, when a transition from the current state to a next state is realized, we add one to the one-step transition matrix, in each appropriate (row, column) element (depending on the transition). The rows of the matrix are at the end normalized to probabilities to transit, starting from one state, to other states, in the script $\mintinline{matlab}{Markovsim.m}$. The matrix is declared as $\mintinline{matlab}{global Msim}$.
+In both these functions, when a transition from the current state to a next state is realized, we add one to the one-step transition matrix, in each appropriate (row, column) element (depending on the transition). The rows of the matrix are at the end normalized to probabilities to transit, starting from one state, to other states, in the script \mintinline{matlab}{Markovsim.m}. The matrix is declared as \mintinline{matlab}{global Msim}.
 \\\\
-The evolution from one generation to the next is realized in $\mintinline{matlab}{mutligen()}$, which calls $\mintinline{matlab}{gentournament()}$, $\mintinline{matlab}{ngens}$ times in order to obtain the final equilibrium states, useful for the calculation of the k-step (k big) transition matrix $\mintinline{matlab}{Mk}$.
+The evolution from one generation to the next is realized in \mintinline{matlab}{mutligen()}, which calls \mintinline{matlab}{gentournament()}, \mintinline{matlab}{ngens} times in order to obtain the final equilibrium states, useful for the calculation of the k-step (k big) transition matrix \mintinline{matlab}{Mk}.
 \\\\
-In the script $\mintinline{matlab}{Markovsim.m}$, in a double $\mintinline{matlab}{for}$ loop, we create all the possible states, given a population of $N$ players ($\frac{(N+1)(N+2)}{2}$ states) and call $\mintinline{matlab}{multimultigen()}$ to create the k-step transition matrix. $\mintinline{matlab}{Markovsim.m}$ calls $\mintinline{matlab}{initialize()}$, where we can set the total population, the payoff matrix, the number of rounds in a match, the number of generations, the number of simulation runs starting from the same state and finally choose the three strategies to compete together with their strategy vectors and initial movements. After the end of the simulation, in $\mintinline{matlab}{Markovsim.m}$, by using MATLAB's $\mintinline{matlab}{dtcm()}$ we create Markov chain models for the one-step and k-step transition matrices and plot their digraph with $\mintinline{matlab}{graphplot()}$. We also create heatmaps for the simulated transition matrices $\mintinline{matlab}{Msim}$, $\mintinline{matlab}{Mk}$ and for their differences, $|Msim-M_{Theory}|, |Mk-{(M_{Theory})}^{ngens}|$ from their respective theoretically calculated ones, $M_{Theory}$ and ${(M_{Theory})}^{ngens}$. We used as a metric of the difference between the two matrices, the sum of all the absolute values of the differences between all their respective elements.
+In the script \mintinline{matlab}{Markovsim.m}, in a double \mintinline{matlab}{for} loop, we create all the possible states, given a population of $N$ players ($\frac{(N+1)(N+2)}{2}$ states) and call \mintinline{matlab}{multimultigen()} to create the k-step transition matrix. \mintinline{matlab}{Markovsim.m} calls \mintinline{matlab}{initialize()}, where we can set the total population, the payoff matrix, the number of rounds in a match, the number of generations, the number of simulation runs starting from the same state and finally choose the three strategies to compete together with their strategy vectors and initial movements. After the end of the simulation, in \mintinline{matlab}{Markovsim.m}, by using MATLAB's \mintinline{matlab}{dtcm()} we create Markov chain models for the one-step and k-step transition matrices and plot their digraph with \mintinline{matlab}{graphplot()}. We also create heatmaps for the simulated transition matrices \mintinline{matlab}{Msim}, \mintinline{matlab}{Mk} and for their differences, $|Msim-M_{Theory}|, |Mk-{(M_{Theory})}^{ngens}|$ from their respective theoretically calculated ones, $M_{Theory}$ and ${(M_{Theory})}^{ngens}$. We used as a metric of the difference between the two matrices, the sum of all the absolute values of the differences between all their respective elements.
 \\\\
 The simulations are quite time consuming, as indicated from the table hereafter. The total population chosen was $N=9$ players.
 
@@ -937,7 +938,7 @@ The simulations are quite time consuming, as indicated from the table hereafter.
 
 Since in the case $N=9$ there are 36 matches per meeting (generation), this gives an average of 4.1 msec per round of execution time in the computer used. A simulation with 1000 rounds/match 50 generations and 100 repetitions per state would need almost 210 hours ($\textasciitilde 9$ days) of simulation time.
 \\\\
-For the last case in the table above, we report the heatmap of the simulated ($\mintinline{matlab}{Msim}$-Figure 5,page 41) and theoretical ($\mintinline{matlab}{MTheory}$-Figure 6,page 41) one-step transition matrices and of the absolute value of their difference in Figure 7, page 42, which appears to be minimal. The same holds for the heatmaps of the simulated k-step (k big) transition matrix (Figure 8, page 42), the respective theoretical one $(MTheory)^{ngen}$ (Figure 9, page 43) and the absolute value of their difference (Figure 10, page 43). In Figure 13,page 46, we report the values of the metric per row of the matrices, for the one-step (blue color) and the k-step (red color) transition matrix.
+For the last case in the table above, we report the heatmap of the simulated (\mintinline{matlab}{Msim}-Figure 5,page 41) and theoretical (\mintinline{matlab}{MTheory}-Figure 6,page 41) one-step transition matrices and of the absolute value of their difference in Figure 7, page 42, which appears to be minimal. The same holds for the heatmaps of the simulated k-step (k big) transition matrix (Figure 8, page 42), the respective theoretical one $(MTheory)^{ngen}$ (Figure 9, page 43) and the absolute value of their difference (Figure 10, page 43). In Figure 13,page 46, we report the values of the metric per row of the matrices, for the one-step (blue color) and the k-step (red color) transition matrix.
 \\\\
 In Figures 11 and 12, pages 44-45 we give the digraphs for the simulated one-step and k-step transition matrices, respectively. For comparison purposes the digraph for the respective theoretically computed one-step Matrix is given in Figure 14  (page 47) also. The three strategies competing were GEN-2, SET-3 and Tit-for-Tat. In Figures 15 and 16 (pages 48,49) we give the digraphs for the one-step and k-step matrices. In this case the strategies are All-C, All-D and Tit-for-Tat, using 50 rounds per match, 3 repetitions and 50 generations.
 
@@ -974,7 +975,7 @@ In Figures 11 and 12, pages 44-45 we give the digraphs for the simulated one-ste
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.6\textwidth]{media/1.jpg}
-    \caption{Simulated one-step transition matrix $\mintinline{matlab}{Msim}$ heatmap.}
+    \caption{Simulated one-step transition matrix \mintinline{matlab}{Msim} heatmap.}
     \label{fig:myimage}
 \end{figure}
 \begin{figure}[h!]
@@ -986,13 +987,13 @@ In Figures 11 and 12, pages 44-45 we give the digraphs for the simulated one-ste
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.6\textwidth]{media/3.jpg}
-    \caption{Heatmap of |$\mintinline{matlab}{Msim}-M_{Theory}$|.}
+    \caption{Heatmap of \(|\)\mintinline{matlab}{Msim}\(- M_{\text{Theory}}|\).}
     \label{fig:myimage}
 \end{figure}
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.6\textwidth]{media/4.jpg}
-    \caption{Simulated k-step transition matrix $\mintinline{matlab}{Mk}$ heatmap.}
+    \caption{Simulated k-step transition matrix \mintinline{matlab}{Mk} heatmap.}
     \label{fig:myimage}
 \end{figure}
 \begin{figure}[h!]
@@ -1004,20 +1005,20 @@ In Figures 11 and 12, pages 44-45 we give the digraphs for the simulated one-ste
 \begin{figure}[h!]
     \centering
     \includegraphics[width=0.6\textwidth]{media/6.jpg}
-    \caption{Heatmap of |$\mintinline{matlab}{Mk}$-$({M_{Theory}})^{50}$|.}
+    \caption{Heatmap of |\mintinline{matlab}{Mk}-$({M_{Theory}})^{50}$|.}
     \label{fig:myimage}
 \end{figure}
 \begin{sidewaysfigure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{media/7.jpg}
-    \caption{Digraph of the simulated one-step transition matrix $\mintinline{matlab}{Msim}$.}
+    \caption{Digraph of the simulated one-step transition matrix \mintinline{matlab}{Msim}.}
     \label{fig:myimage}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{media/8.jpg}
-    \caption{Digraph of the simulated k-step transition matrix $\mintinline{matlab}{Mk}$.}
+    \caption{Digraph of the simulated k-step transition matrix \mintinline{matlab}{Mk}.}
     \label{fig:myimage}
 \end{sidewaysfigure}
 
@@ -1038,14 +1039,14 @@ In Figures 11 and 12, pages 44-45 we give the digraphs for the simulated one-ste
 \begin{sidewaysfigure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{media/11.jpg}
-    \caption{Digraph of $\mintinline{matlab}{Msim}$ in the case of All-C, All-D and Tit-for-Tat strategies.}
+    \caption{Digraph of \mintinline{matlab}{Msim} in the case of All-C, All-D and Tit-for-Tat strategies.}
     \label{fig:myimage}
 \end{sidewaysfigure}
 
 \begin{sidewaysfigure}[h!]
     \centering
     \includegraphics[width=0.9\textwidth]{media/12.jpg}
-    \caption{Digraph of $\mintinline{matlab}{Mk}$ in the case of All-C, All-D and Tit-for-Tat strategies.}
+    \caption{Digraph of \mintinline{matlab}{Mk} in the case of All-C, All-D and Tit-for-Tat strategies.}
     \label{fig:myimage}
 \end{sidewaysfigure}
 
