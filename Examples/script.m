@@ -27,7 +27,7 @@ addpath('Code/Genaxel');
 % pop: Attributes decimals to the largest populations
 % dec: Attributes decimals to the populations closer to the next integer
 % off: Turns off rounding 
-rounding = "paper";
+rounding = "off";
 
 %%%%%% Imitators %%%%%%
 % If sim_mode == TourSimImit, it is the number of players that imitate the best strategy per generation
@@ -35,7 +35,19 @@ K = 5;
 
 %%%%%% Load your desired meeting %%%%%%
 % Pick any meeting you want to recreate out of the figure files inside the Example folder
-figure07_2;
+% figure01: Defectors may be strong
+% figure02: Monotonous convergance  
+% figure03: Attenuated oscillatory movements
+% figure04: Periodic movements
+% figure05: Increasing oscillations
+% figure06: Disordered oscillations
+% figure07_1, figure07_2: Population size sensitivity
+% figure08_1, figure08_2: Population size sensitivity 2
+% figure09_1, figure09_2: Game length sensitivity
+% figure10_1, figure10_2: Payoff matrix sensitivity
+% figure11_1, figure11_2: Rounding method sensitivity
+% figure12_1, figure12_2: Rounding method sensitivity 2
+figure01;
 
 %%%%%% Custom meeting %%%%%%
 % Set custom -> true, to set your own parameters
@@ -47,7 +59,7 @@ if custom == true
     populationsArray = [10, 10, 10]; % Population sizes for each strategy
     matrix = [3, 0; 5, 1]; % Payoff matrix
     rounds = 100; % Number of rounds
-    generations = 90; % Number of generations
+    generations = 10; % Number of generations
 end
 
 %%%%%% Simulation Mode %%%%%%
