@@ -1,17 +1,21 @@
-# TourTheFit
+# Function TourSimFit
+
 ```matlab
-function TourTheFit(matrix, strategiesArray, populationsArray, rounds, generations, rounding)
+TourTheFit(obj, b , strategies , pop0 , T , J , rounding)
 ```
-`@ matrix`: The payoff matrix of the tournament.
 
-`@ strategiesArray`: The array populated by the strategies involved in the Tournament. Each number corresponds to a specific strategy. (Seek details in *Examples/script.m*)
+`@ b`: The payoff parameter(s) for the game.
 
-`@ populationsArray`: The array which consists of the populations of each strategy mention in the strategiesArray above.
+`@ strategies`: The array populated by the strategy definitions.
 
-`@ rounds`: The number of rounds each individual Axelrod Tournament will last.
+`@ pop0`: The initial population distribution across the strategies.
 
-`@ generations`: The number of times the Axelrod Tournament goes through all its rounds, updating the strategies' populations based on their accumulated points.
+`@ T`:  The number of rounds per tournament.
 
-`@ rounding`: The rounding method used in the Tournament.
+`@ J`: Number of generations to simulate.
 
-The Theoretical Fitness tournament
+`@ rounding`: Controls how fractional population values are rounded.
+
+
+# Comment
+Runs a round-robin tournament to compute payoffs, then updates the population using fitness-proportional rules based on Mathieu's formula. Scores are weighted by opponent populations, normalized, and rounded to determine the next generation's distribution. 
