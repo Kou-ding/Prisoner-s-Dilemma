@@ -1,18 +1,116 @@
+# `genaxel` Class
+
+## Class Definition
+
 ```matlab
-function TourTheFit(matrix, strategiesArray, populationsArray, rounds, generations, rounding)
+classdef genaxel
 ```
-`@ matrix`: The payoff matrix of the tournament.
 
-`@ strategiesArray`: The array populated by the strategies involved in the Tournament. Each number corresponds to a specific strategy. (Seek details in *Examples/script.m*)
+## Class Attributes
 
-`@ populationsArray`: The array which consists of the populations of each strategy mention in the strategiesArray above.
+```matlab
+static_totalplayers = 0; % Total number of players in the population
+```
 
-`@ rounds`: The number of rounds each individual Axelrod Tournament will last.
+## Methods
 
-`@ generations`: The number of times the Axelrod Tournament goes through all its rounds, updating the strategies' populations based on their accumulated points.
+### Constructor
 
-`@ rounding`: The rounding method used in the Tournament.
+```matlab
+function obj = genaxel()
+```
 
-# Comment
-Conducts a round-robin tournament between all strategies to calculate the payoff matrix, V. These results are then used to compute fitness-based population updates for the next generation, using the Mathieu's formula.
-The total number of players for the next generation is redistributed across strategies proportionally to their performance scores. Each strategy's score is calculated based on its success against others, weighted by their population. The total score across all strategies is used to normalize these values.A rounding method finalizes the allocation.
+* **Returns**: `obj` — A new `genaxel` object.
+
+Creates a new `genaxel` object.
+
+---
+
+### `TheoreticalFitness`
+
+```matlab
+function [obj, Wn, V] = TheoreticalFitness(obj, b, strategies, pop0, T, rounding)
+```
+
+#### Parameters:
+
+* `obj`: The `genaxel` object
+* `b`: The payoff matrix
+* `strategies`: Array of strategies
+* `pop0`: Initial population for generation 0
+* `T`: Number of rounds per game
+* `rounding`: Method for rounding population updates
+
+#### Returns:
+
+* `Wn`: Population of the next generation
+* `V`: Matrix of scores for each strategy against others
+
+Runs a theoretical tournament to evaluate strategy fitness and updates populations accordingly.
+
+---
+
+### `SimFitness`
+
+```matlab
+function [obj, Wn] = SimFitness(obj, b, strategies, pop0, T)
+```
+
+#### Parameters:
+
+* `obj`: The `genaxel` object
+* `b`: The payoff matrix
+* `strategies`: Array of strategies
+* `pop0`: Population at generation n
+* `T`: Number of rounds
+
+#### Returns:
+
+* `Wn`: Updated population
+
+Simulates a tournament and returns updated population sizes based on scores.
+
+---
+
+### `ImitationSim`
+
+```matlab
+function [obj, Wn] = ImitationSim(obj, b, strategies, pop0, K, T)
+```
+
+#### Parameters:
+
+* `obj`: The `genaxel` object
+* `b`: The payoff matrix
+* `strategies`: Array of strategies
+* `pop0`: Population of generation n
+* `K`: Number of imitation steps
+* `T`: Number of rounds
+
+#### Returns:
+
+* `Wn`: Updated population
+
+Applies an imitation rule where agents adopt successful strategies based on scores.
+
+---
+
+### `plotgen`
+
+```matlab
+function obj = plotgen(obj, generations, popHistory, strategies)
+```
+
+#### Parameters:
+
+* `obj`: The `genaxel` object
+* `generations`: Total number of generations
+* `popHistory`: Matrix tracking population evolution
+* `strategies`: Array of strategy indices
+
+#### Returns:
+
+* `obj`
+
+Generates a plot showing how each strategy's population evolves across generations.
+

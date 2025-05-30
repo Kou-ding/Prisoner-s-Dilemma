@@ -18,15 +18,7 @@ classdef  genaxel
             % Initialize any properties if needed
         end
 
-        %{      
-            function TourTheFit(obj, b , strategies , pop0 , T , J ) . Σε αυτη τη συνάρτηση 
-            θα επιστρεφεται καθε φορα ο πληθυσμος της γενιας n και το V που ειναι το score 
-            μιας στρατηγικης με την αλλη στρατηγικη.Για τη V οριζουμε ενα πινακα με δυο διαστασεις
-            τις καταλληλεσ για να παρουμε καθε αναμετρηση μιας στρατηγικης με την αλλη στρατηγικη.
-            Με βαση το κωδικα που εχουμε υλοποιηση για το axelrod τρεχουμε ενα τουρνουα για καθε μια
-            στρατηγικη ανα μεταξυ της και ετσι εχουμε τον πινακα V. Χρησιμοποιωντας τη φορμουλα του 
-            Mathieu ενημερωνουμε τους πλυθησμους της γενιας n + 1.
-        %}
+        
         function [obj,Wn,V] = TheoreticalFitness(obj, b , strategies , pop0 , T , rounding)
             % V stores the strategies interactions with one another
             V = zeros(length(strategies),length(strategies));
