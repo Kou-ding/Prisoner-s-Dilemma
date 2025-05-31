@@ -47,12 +47,12 @@ K = 5;
 % figure10_1, figure10_2: Payoff matrix sensitivity
 % figure11_1, figure11_2: Rounding method sensitivity
 % figure12_1, figure12_2: Rounding method sensitivity 2
-figure01;
+figure06;
 
 %%%%%% Custom meeting %%%%%%
 % Set custom -> true, to set your own parameters
 % This overrides the previous meeting's parameters
-custom = true;
+custom = false;
 if custom == true
     % Custom
     strategiesArray = [2, 3, 5]; % Strategy numbers from the list above
