@@ -1,8 +1,18 @@
-% Choose opponents, strategy vectors, pay-off matrix, polulation, rounds,
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% INITIALIZE FOR FIGURES 14 TO 25 %%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+% Choose opponents, strategy vectors, pay-off matrix, polulation, rounds (separate
+% for the theoretical and simulation part),
 % number of repetitions starting from each state, unique states and probabilities
-% that a strategy chooses 'C' as its first move
-function [p1, p2, p3, payoff, N, rounds, numofreps, alluniquestates, initprobs, ngens] = initializeS()
+% that a strategy chooses 'C' as its first move. Choose also if a
+% predetermined outcome meeting is applied.
+
+function [p1, p2, p3, payoff, N, roundsth, roundssim, numofreps, alluniquestates, initprobs, ngens, predetermined, names, chosen] = initialize()
     
+    fprintf('Performing initialization calculations...\n\n');
+
     % Total population (n=n1+n2+n3, ni players for strategy i)
     N = 9;
 
@@ -10,11 +20,16 @@ function [p1, p2, p3, payoff, N, rounds, numofreps, alluniquestates, initprobs, 
     R = 3; T = 5; S = 0; P = 1;
     payoff = [R, S, T, P];
 
-    % Rounds in a game between two opponents
-    rounds = 8;
+    % Rounds in a game between two opponents (used in theoretical
+    % calculations)
+    roundsth = 1000;
+
+    % Rounds in a game between two opponents (used in simulation
+    % calculations)
+    roundssim = 500;
 
     % Number of repetitions starting from each state
-    numofreps = 3;
+    numofreps = 15;
 
     % Number of generations
     ngens = 50;
@@ -44,13 +59,36 @@ function [p1, p2, p3, payoff, N, rounds, numofreps, alluniquestates, initprobs, 
     
     % Vector of chosen opponents
     chosen = [7, 9, 4];
-    
+
+    % PREDETERMINED OUTCOME MEETINGS
+    % HAS PRIORITY OVER MEETINGS WITH STRATEGY VECTORS
+    % CHOOSE EMPTY STRING ('') TO APPLY A MEETING WITH STRATEGY VECTORS
+    % ELSE CHOOSE 'A', 'B',... (ATTENTION, USE ENGLISH LETTERS)
+    % A: All-C vs All-D vs Trigger
+    % B: CCD vs DDC vs Soft-Majo
+    predetermined = '';
+
     % Strategy names map
     names = containers.Map({1,2,3,4,5,6,7,8,9,10,11},...
         {'All-C', 'All-D', 'Random', 'Tit-for-Tat', 'GTFT',...
         'Pavlov', 'GEN-2', 'SET-2', 'SET-3',...
         'EXT-2', 'EXT-5'});
-    
+
+    % Print info message
+    switch predetermined
+        case ""
+            fprintf('%s vs %s vs %s was chosen.\n\n', names(chosen(1)), names(chosen(2)), names(chosen(3)));
+        case 'A'
+            fprintf('All-C vs All-D vs Trigger was chosen, with predetermined outcome meetings.\n\n');
+        case 'B'
+            fprintf('CCD vs DDC vs Trigger was chosen, with predetermined outcome meetings.\n\n');
+    end
+
+    % Info message
+    fprintf(['%d players in total, %d rounds per game for the theoretical calculations,\n' ...
+        '%d rounds per game for the simulation calculations, %d repetitions per initial state, %d generations.\n' ...
+        'The payoff matrix is [R=%d, S=%d, T=%d, P=%d].\n\n'], N, roundsth, roundssim, numofreps, ngens, R, S, T, P);
+
     % Strategy vectors map
     ps = containers.Map({'All-C','All-D','Random','Tit-for-Tat', 'GTFT'...
         'Pavlov', 'GEN-2', 'SET-2', 'SET-3',...
