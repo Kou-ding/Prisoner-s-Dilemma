@@ -8,9 +8,6 @@
 \usepackage{caption}
 \usepackage{listings} % for code snippets
 \usepackage{xcolor} % for customizing colors
-\geometry{a4paper, total={170mm,257mm},left=15mm, right=15mm, top=20mm}
-\usepackage{kbordermatrix}
-\usepackage{slashbox}
 \usepackage{amssymb}
 \usepackage{minted}
 \usepackage{rotating}
@@ -20,6 +17,10 @@
 \usepackage{algpseudocode}
 \usepackage{subcaption}
 \usepackage{booktabs}
+\usepackage{packages/kbordermatrix}
+\usepackage{packages/slashbox}
+\usepackage{diagbox}
+\geometry{a4paper, total={170mm,257mm},left=15mm, right=15mm, top=20mm}
 \graphicspath{ {media/} }
 \setcounter{secnumdepth}{3}
 
@@ -369,13 +370,15 @@ The methods of the class include the standard setters and getters but also mater
 \caption{\texttt{playRound()} logic}
 \begin{algorithmic}
 \Function{playRound}{}
-  \For{$i \gets i$ to $N-1$}
+  \For{$i \gets 0$ to $N-1$}
     \For{$j \gets i+1$ to $N$}
       \State Run the round between player $i$ and player $j$
     \EndFor
   \EndFor
+\EndFunction
 \end{algorithmic}
 \end{algorithm}
+
 
 The \texttt{playRound()} logic can be seen below.\\We run two nested loops to effectively simulating all encounters between players. It should be noted that the second loop begins at \texttt{i+1} to avoid enacting the same encounter twice.\\
 Finally, the \texttt{encounter()} method is responsible for setting the moves of the two players involved, updating their history column which corresponds to the current round (row) and current opponent (column) and updating their current score.
@@ -390,6 +393,7 @@ Finally, the \texttt{encounter()} method is responsible for setting the moves of
   \EndIf
   \State Assign payoffs to both players based on moves
   \State Update each player's history with their move     
+\EndFunction
 \end{algorithmic}
 \end{algorithm}
 \\Now, in order to start the tournament, we have to convert the input arguments into actual players. The \texttt{InitPlayers()} method creates a map matching specIfic numbers with strategy constructors. The distinct populations determine how many times each strategy object should be created and the number of rounds contributes to the number of rows the history matrices should have.
@@ -473,7 +477,7 @@ Finally, in the \texttt{ImitationSim} function, each strategy's total score is c
 \EndFor
 
 \Return Wn
-
+\EndFunction
 \end{algorithmic}
 \end{algorithm}
 
@@ -524,7 +528,7 @@ Finally, in the \texttt{ImitationSim} function, each strategy's total score is c
 
 \Return Wn
 
-
+\EndFunction
 \end{algorithmic}
 \end{algorithm}
 We noticed that the way we implemented \texttt{genaxel} was time consuming, because of recurring initialization of Axelrod tournament wich essentially calculated time and again th epayoff Matrix, \texttt{V}.\\
@@ -549,7 +553,8 @@ In the following, improved version, we made the function "oneVone" which is only
 \EndFor
 
 \State Store V in object  
-\return V
+\State \textbf{return} V
+\EndFunction
 \end{algorithmic}
 \end{algorithm}
 
@@ -636,7 +641,7 @@ We also devised a similar method which, this time, distributes the decimal parts
 
 
 It is important to note that when comparing equal quantities there is no clear ranking between remainders. Thus the program decides where to distribute the decimal parts based on the order of the strategies. This could very well be consequential enough to skew the results in a different direction. Let's see how our results compare relative to the ones in the paper. Along with our own rounding methods we managed to reverse engineer the paper's method. It involves pinning the total population at the start of the code so as to only compute the strategies' score ratios. We then floor the emerging individual populations but no matter the decimal parts the total population of each round cannot become 
-$\lesseq constant\_total\_population-3$. Since the results are exactly the same there isn't any commentation to be done. Thus we will only depict them as proof we recreated the paper's results.
+    $\leq constant\_total\_population-3$. Since the results are exactly the same there isn't any commentation to be done. Thus we will only depict them as proof we recreated the paper's results.
 \newpage
 
 %%%%%%%%%%%%%%%%%%%%%%%%% Meetings %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -1149,7 +1154,7 @@ This experiment examines the case of changing the game's length or the number of
         \hline
         \multicolumn{2}{|l|}{\textbf{Notes:}} \\
         \multicolumn{2}{|l|}{Rounds = 6 $\rightarrow$ 7} \\
-        \multicolumn{2}{|l|}{Generations = 1000 \rightarrow 250} \\
+        \multicolumn{2}{|l|}{Generations = 1000 $\rightarrow$ 250} \\
         \multicolumn{2}{|l|}{Matrix = \(\begin{bmatrix} 3 & 0 \\ 5 & 1 \end{bmatrix}\)} \\
         \hline
     \end{tabular}
@@ -1239,7 +1244,7 @@ This meeting highlights the effects a slight change to one of the payoff matrix 
         \hline
         \multicolumn{2}{|l|}{\textbf{Notes:}} \\
         \multicolumn{2}{|l|}{Rounds = 1000} \\
-        \multicolumn{2}{|l|}{Generations = 500 \rightarrow 1000} \\
+        \multicolumn{2}{|l|}{Generations = 500 $\rightarrow$ 1000} \\
         \multicolumn{2}{|l|}{Matrix = \(\begin{bmatrix} 3 & 0 \\ 4.6 \rightarrow 4.7 & 1 \end{bmatrix}\)} \\
         \hline
     \end{tabular}
@@ -1827,12 +1832,13 @@ By using MATLAB's \mintinline{matlab}{dtmc}, we construct a Markov chain model a
 \subsubsection{Analysis and MATLAB realization in predetermined outcome meetings}\label{predetermined}
 
 Often, the scores players gain in a match can be evaluated as a deterministic function of the game history. In these cases we could use the exact results, instead of the expected average payoff per round values, moreover without any need for simulation of the game. For example in a match of U rounds between an All-D player and a Trigger player the game history is 
-\\
-$$ \begin{matrix}
-All-D: & D & D & D & D & ... & D \\
-Trigger: & C & D & D & D & ... & D 
-\end{matrix}  $$
-\\
+$$
+\begin{matrix}
+All-D: & D & D & D & D & \dots & D \\
+Trigger: & C & D & D & D & \dots & D
+\end{matrix}
+$$
+
 Then the match scores are  $\begin{bmatrix}
 T \\
 S 

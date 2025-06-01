@@ -1,0 +1,25 @@
+\begin{algorithm}
+\caption{one\_v\_one}
+\begin{algorithmic}[1]
+
+\Function{one\_v\_one}{strategies, T, b}
+
+\StateCreate matrix V of zeros with size [strategies][strategies]  
+\StateSet population array to [1, 1]
+
+\For{each strategy i}
+    \For{each strategy j}
+        \StateCreate temporary pair [strategy i, strategy j]  
+        \StateInitialize a new tournament with that pair  
+        \StateRun the tournament  
+        \StateSet V[i][j] to the score of player 1  
+    \EndFor
+\EndFor
+
+\StateStore V in object  
+\return V
+
+\Endfunction
+
+\end{algorithmic}
+\end{algorithm}
