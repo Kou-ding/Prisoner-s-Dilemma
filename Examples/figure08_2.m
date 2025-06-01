@@ -4,4 +4,4 @@ strategiesArray = [9, 10, 12]; % soft_majo, per_ccd, per_ddc
 populationsArray = [160, 100, 100]; % pure paper populations
 matrix = [3, 0; 5,1];
 rounds = 1000;
-generations = 50;
+generations = 25;
