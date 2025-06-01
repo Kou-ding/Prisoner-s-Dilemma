@@ -1,7 +1,7 @@
 classdef  genaxel
     properties
         static_totalplayers = 0; % Total number of players in the population
-               
+        V = [];    
     end
         % function TourTheFit wher b is the payoff matrix of row player
         % strategies is the array of strategies
@@ -27,9 +27,31 @@ classdef  genaxel
             στρατηγικη ανα μεταξυ της και ετσι εχουμε τον πινακα V. Χρησιμοποιωντας τη φορμουλα του 
             Mathieu ενημερωνουμε τους πλυθησμους της γενιας n + 1.
         %}
-        function [obj,Wn,V] = TheoreticalFitness(obj, b , strategies , pop0 , T , rounding)
-            % V stores the strategies interactions with one another
+        
+        
+        function [obj,V] = oneVone(obj , b , strategies ,T )
             V = zeros(length(strategies),length(strategies));
+            Arraypop = ones(1,2);
+            
+            for i = 1:length(strategies)
+                for j =1:length(strategies)
+                    tempstrat=[strategies(i),strategies(j)];
+                    tournament = axelrod();
+                    tournament = tournament.InitPlayers(tempstrat,Arraypop,T);
+                    tournament = tournament.initAxel(tournament.players,b,T);
+                    tournament = tournament.begin();
+                    V(i,j) = tournament.players{1}.getScore();
+                    
+                end
+            end
+            
+            obj.V = V;
+        end
+
+        
+        function [obj,Wn] = TheoreticalFitness(obj, b , strategies , pop0 , T , rounding)
+            % V stores the strategies interactions with one another
+            
             Wn = pop0; % Wn is the population of generation n
            
             %we will implement a axelrod tournament for two strategies of population 1 each time 
@@ -37,22 +59,14 @@ classdef  genaxel
             
             totalplayers = sum(Wn); % Total number of players in the population
   
-            oneVone = ones(1,2);
+            
             Gn = zeros(1,length(strategies)); % Gn is the score of each strategy
             Tn = 0; % Total score of the generation
             for i = 1:length(strategies)
                 for j = 1:length(strategies)
-                    % Create a new axelrod tournament for each strategy
-                    tempArray = [strategies(i) , strategies(j)];
-                    tournament = axelrod(); % Create an axelrod tournament
-                    tournament = tournament.InitPlayers(tempArray,oneVone,T);
-                    % Initialize the tournament with players and payoff matrix 
-                    tournament = tournament.initAxel(tournament.players,b,T); 
-                    tournament = tournament.begin(); % Run the tournament
-                    V(i,j) =  tournament.players{1}.getScore(); % Store the score of the first player
-                    Gn(i) = Gn(i) + V(i,j)*Wn(j)  ; % Update the score of the strategy i
+                   Gn(i) = Gn(i) + obj.V(i,j)*Wn(j) ; % Update the score of the strategy i
                 end
-                Gn(i) = Gn(i) - V(i,i) ;
+                Gn(i) = Gn(i) - obj.V(i,i) ;
                 % Update the score of the strategy i by removing the self-play score    
                 Tn = Tn + Gn(i)*Wn(i) ; % Update the total score
             end

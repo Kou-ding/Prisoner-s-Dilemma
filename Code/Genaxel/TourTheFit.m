@@ -16,10 +16,10 @@ function TourTheFit(b , strategies , pop0 , T , J, rounding )
     Wn = pop0; % Initialize population for generation 1
     
     tournament.static_totalplayers = sum(Wn); % Set total number of players in the tournament
-
+    tournament = tournament.oneVone(b,strategies,T);
     % Simulate J generations
     for i = 1:J
-        popHistory(i,:) = Wn; % Record current population
+        popHistory(i,:) = Wn ; % Record current population
         
         % Compute next generation's population using theoretical fitness
         [tournament, Wn] = tournament.TheoreticalFitness(b , strategies , Wn , T , rounding);
