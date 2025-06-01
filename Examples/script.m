@@ -27,7 +27,7 @@ addpath('Code/Genaxel');
 % pop: Attributes decimals to the largest populations
 % dec: Attributes decimals to the populations closer to the next integer
 % off: Turns off rounding 
-rounding = "off";
+rounding = "paper";
 
 %%%%%% Imitators %%%%%%
 % If sim_mode == TourSimImit, it is the number of players that imitate the best strategy per generation
@@ -47,7 +47,7 @@ K = 5;
 % figure10_1, figure10_2: Payoff matrix sensitivity
 % figure11_1, figure11_2: Rounding method sensitivity
 % figure12_1, figure12_2: Rounding method sensitivity 2
-figure06;
+figure12_1;
 
 %%%%%% Custom meeting %%%%%%
 % Set custom -> true, to set your own parameters
