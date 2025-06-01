@@ -17,17 +17,15 @@ EvolutionaryGamesToolbox
 │    ├── Genaxel
 │    │   └── The object oriented genetic Axelrod tournament project.
 │    └── Markov
-│        ├── Markov Theory
-│        │    └── markov theory description ...
-│        └── Markov Simulation
-│            └── markov simulation description ...
+│        └── Analysis of imitation dynamics based on Markov chains through one-step and k-step state transition matrices.            
 ├── Documentation
-│    └── Analytical documentation of all the code's functions.
+│    └── Analytical documentation of all the code's functions and classes.
 ├── Examples
 │    ├── The **script.m** capable of configuring and running the code.
-│    └── Specific meeting configurations we demonstrate in our paper which can be 
-│        referenced inside of the script to load that particular environment
-│        variables. 
+│    ├── Specific meeting configurations we demonstrate in our paper which can be 
+│    │   referenced inside of the script to load that particular environment
+│    │   variables. 
+│    └── A quick guide to get starting with Markov's simulations. 
 └── Report
     └── The latex code which forms our report and a pdf copy of our the end result.
         To gain further insight on the project make sure to read its contents.
