@@ -31,4 +31,4 @@ state = []; % per-opponent array of the player's current state number
  
     `returns obj`: Returns the player object. 
 
-    Initially plays cooperate, defect, cooperate. One the third cooperate ascertains if the opponent retaliated. If yes then the opponent isn't exploitable, thus continue as a tit-for-tat player. Otherwise the opponent is exploitable, thus continue as defect to maximize profits.
+    Initially plays defect, cooperate, cooperate. On the third cooperate ascertains if the has opponent retaliated on rounds 2 and 3. If yes then the opponent isn't exploitable, thus continue as a tit-for-tat player. Otherwise the opponent is exploitable, thus continue as a defect player to maximize profits.
